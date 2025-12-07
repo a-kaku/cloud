@@ -9,3 +9,4 @@ s3.upload_file(
 
 buckets_list = s3.list_buckets()
 print(buckets_list)
+print('You have succesfully saved the file.')
