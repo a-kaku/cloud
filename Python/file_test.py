@@ -7,5 +7,6 @@ def read_csv(file_path):
         data = [row for row in csv_reader]
         print(f"Read {len(data)} rows from {file_path}")
 
-path = Path("C:/Users/m-kaku/Desktop/対応案件/Pleasanter/会社コード、activedirectoryチェック追加用/13_会社アルファベット略語_2025_09_30 10_24_47.Csv")
+received_path = input("Enter the path to the CSV file: ")
+path = Path(received_path)
 read_csv(path)
