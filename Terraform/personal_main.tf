@@ -23,3 +23,7 @@ resource "aws_security_group" "sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 }
+
+output "ip" {
+    value = "aws_instance.PersonalServer001.public_ip"
+}
