@@ -10,17 +10,27 @@ resource "aws_instance" "personal" {
 
     tags = {
         Name = "PersonalServer001"
+        Tech = "Terraform"
     }
 }
 
-resource "aws_security_group" "sg" {
-    name = "launch-wizard-1"
+resource "aws_security_group" "segroup" {
+    name = "docker_app"
+    description = "Allows apps connect to internet."
 
     ingress {
         from_port = 8080
         to_port = 8080
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        from_port = 443
+        to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+
     }
 }
 
