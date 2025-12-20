@@ -2,7 +2,7 @@ provider "aws" {
     region = "ap-northeast-1"
 }
 
-resource "aws_instance" "personal" {
+data "aws_instance" "personal" {
 
     instance_type = "t2.micro"
     ami = "ami-040573aabcd4f9b69"
@@ -13,7 +13,7 @@ resource "aws_instance" "personal" {
     }
 }
 
-resource "aws_security_group" "sg" {
+data "aws_security_group" "sg" {
     name = "launch-wizard-1"
 
     ingress {
@@ -24,6 +24,11 @@ resource "aws_security_group" "sg" {
     }
 }
 
-output "ip" {
-    value = aws_instance.Personal.public_ip
+data "aws_subnet" "main" {
+  vpc_id     = vpc-04203f9598b6c66bd
+  cidr_block = "172.31.0.0/20"
+
+  tags = {
+    Name = "Main"
+  }
 }
