@@ -25,5 +25,5 @@ resource "aws_security_group" "sg" {
 }
 
 output "ip" {
-    value = aws_instance.PersonalServer001.public_ip
+    value = aws_instance.Personal.public_ip
 }
