@@ -22,6 +22,13 @@ resource "aws_security_group" "segroup" {
     description = "Allows apps connect to internet."
 
     ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
         from_port = 8080
         to_port = 8080
         protocol = "tcp"
@@ -47,4 +54,17 @@ resource "aws_security_group" "segroup" {
 data "aws_subnet" "main" {
   vpc_id     = "vpc-04203f9598b6c66bd"
   cidr_block = "172.31.0.0/20"
+}
+
+variable "info" {
+    description = "Test to get some informations."
+    type = string
+}
+
+output "ec2_ip" {
+    value = aws_instance.personal.public_ip
+}
+
+output "input_info" {
+    value = var.info
 }
