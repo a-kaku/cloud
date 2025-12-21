@@ -6,6 +6,11 @@ resource "aws_instance" "personal" {
 
     instance_type = "t2.micro"
     ami = "ami-040573aabcd4f9b69"
+    
+    vpc_security_group_ids = {
+        aws_security_group.segroup.id
+        
+    }
 
     tags = {
         Name = "PersonalServer001"
