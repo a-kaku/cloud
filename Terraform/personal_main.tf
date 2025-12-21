@@ -14,6 +14,7 @@ resource "aws_instance" "personal" {
     tags = {
         Name = "PersonalServer001"
         Tech = "Terraform"
+        message = var.input_info
     }
 }
 
