@@ -121,8 +121,12 @@ DOC
 
 resource "aws_ssm_association" "sssd_assoc" {
   name            = aws_ssm_document.sssd_doc.name
-  instance_id     = aws_instance.sftp_tmp01.id
-  wait_for_success = true
+  association_name = "UpdateSSSD-assoc"
+
+  targets {
+    key = "tag:Role"
+    values = "sftp-server"
+  }
 
   schedule_expression = "cron(0 * * * ? *)"
   compliance_severity = "HIGH"  
@@ -130,8 +134,12 @@ resource "aws_ssm_association" "sssd_assoc" {
 
 resource "aws_ssm_association" "sshd_assoc" {
   name            = aws_ssm_document.sshd_doc.name
-  instance_id     = aws_instance.sftp_tmp01.id
-  wait_for_success = true
+  association_name = "UpdateSSHD-assoc"
+
+  targets {
+    key = "tag:Role"
+    values = "sftp-server"
+  }
 
   schedule_expression = "cron(0 * * * ? *)"
   compliance_severity = "HIGH"

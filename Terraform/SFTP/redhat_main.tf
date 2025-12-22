@@ -33,5 +33,6 @@ resource "aws_instance" "sftp_tmp01" {
     Name            = "SFTP-tmp01"
     Owner           = "h21local"
     CmBillingGroup  = "h21local"
+    Role           = "sftp-server"
   }
 }
