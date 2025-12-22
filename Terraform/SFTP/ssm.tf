@@ -125,7 +125,7 @@ resource "aws_ssm_association" "sssd_assoc" {
 
   targets {
     key = "tag:Role"
-    values = "sftp-server"
+    values = ["sftp-server"]
   }
 
   schedule_expression = "cron(0 * * * ? *)"
@@ -138,7 +138,7 @@ resource "aws_ssm_association" "sshd_assoc" {
 
   targets {
     key = "tag:Role"
-    values = "sftp-server"
+    values = ["sftp-server"]
   }
 
   schedule_expression = "cron(0 * * * ? *)"
