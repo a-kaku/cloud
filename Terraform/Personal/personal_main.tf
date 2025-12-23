@@ -59,6 +59,7 @@ data "aws_subnet" "main" {
 variable "info" {
     description = "Test to get some informations."
     type = string
+    default = "none"
 }
 
 output "ec2_ip" {
