@@ -57,8 +57,3 @@ resource "aws_lb_target_group_attachment" "sftp_tmp02_attachment" {
   target_id        = aws_instance.sftp_tmp02.id
   port             = 22
 }
-
-data "aws_security_group" "sftp_test" {
-  name        = "SFTP-test"
-  description = "Security group for HGS NLB"
-}
