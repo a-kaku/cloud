@@ -32,7 +32,7 @@ resource "aws_lb_listener" "hgs_nlb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.hgs_nlb_tg.arn
+    target_group_arn = aws_lb_target_group.hgs_nlb_tg01.arn
   }
 }
 
