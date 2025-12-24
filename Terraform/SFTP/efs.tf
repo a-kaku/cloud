@@ -1,4 +1,4 @@
-resource "aws_efs_file_system" "sftp_efs" {
+data "aws_efs_file_system" "sftp_efs" {
     throughput_mode = "elastic"
     lifecycle_policy {
       transition_to_ia = "AFTER_30_DAYS"
