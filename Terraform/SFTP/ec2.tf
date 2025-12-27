@@ -1,4 +1,4 @@
-resource "aws_instance" "sftp_tmp01" {
+resource "aws_instance" "sftp_01" {
   ami           = "ami-040573aabcd4f9b69"
   instance_type = "t3.medium"
   subnet_id     = data.aws_subnet.h21local_d.id
@@ -10,14 +10,14 @@ resource "aws_instance" "sftp_tmp01" {
   iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
   tags = {
-    Name            = "SFTP-tmp01"
+    Name            = "SFTP-01"
     Owner           = "h21local"
     CmBillingGroup  = "h21local"
     Role           = "sftp-server"
   }
 }
 
-resource "aws_instance" "sftp_tmp02" {
+resource "aws_instance" "sftp_02" {
   ami           = "ami-040573aabcd4f9b69"
   instance_type = "t3.medium"
   subnet_id     = data.aws_subnet.h21local_a.id
@@ -29,7 +29,7 @@ resource "aws_instance" "sftp_tmp02" {
   iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
   tags = {
-    Name            = "SFTP-tmp02"
+    Name            = "SFTP-02"
     Owner           = "h21local"
     CmBillingGroup  = "h21local"
     Role           = "sftp-server"

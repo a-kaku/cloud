@@ -35,7 +35,7 @@ resource "aws_ssm_parameter" "sshd_conf" {
 Port 22
 # 複数ある場合は下記のように併記 ただし、通常のSSHDと競合しないように注意
 # port 8022
-Subsystem sftp internal-sftp -f AUTH -l INFO
+Subsystem sftp internal-sftp -f AUTH -l VERBOSE
 PubkeyAuthentication yes
 PasswordAuthentication yes
 UsePAM yes

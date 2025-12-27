@@ -48,9 +48,9 @@ resource "aws_lb_target_group" "hgs_nlb_tg01" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "sftp_tmp01_attachment" {
+resource "aws_lb_target_group_attachment" "sftp_01_attachment" {
   target_group_arn = aws_lb_target_group.hgs_nlb_tg01.arn
-  target_id        = aws_instance.sftp_tmp01.id
+  target_id        = aws_instance.sftp_01.id
   port             = 22
 }
 
@@ -66,8 +66,8 @@ resource "aws_lb_target_group" "hgs_nlb_tg02" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "sftp_tmp02_attachment" {
+resource "aws_lb_target_group_attachment" "sftp_02_attachment" {
   target_group_arn = aws_lb_target_group.hgs_nlb_tg02.arn
-  target_id        = aws_instance.sftp_tmp02.id
+  target_id        = aws_instance.sftp_02.id
   port             = 22
 }
