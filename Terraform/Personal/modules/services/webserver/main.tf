@@ -8,7 +8,7 @@ resource "aws_instance" "personal" {
     ami = "ami-040573aabcd4f9b69"
     
     vpc_security_group_ids = [
-        aws_security_group.segroup.id
+        aws_security_group.sg.id
     ]
 
     tags = {
@@ -52,7 +52,7 @@ data "terraform_remote_state" "db" {
     backend = "s3"
 
     config = {
-        bucket = var.db_remote_bucket
+        bucket = var.db_remote_state_bucket
         key = var.db_remote_state_key
         region = "ap-northeast-1"
     }
