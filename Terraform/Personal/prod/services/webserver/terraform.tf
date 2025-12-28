@@ -3,5 +3,7 @@ terraform {
         region = "ap-northeast-1"
         bucket = "personal-practice-bucket"
         key = "prod/services/webserver/terraform.tfstate"
+        dynamodb_table = "terraform-locks"
+        encrypt = true
     }
 }
