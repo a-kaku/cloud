@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "webserver" {
-    source = "D:\\Python\\cloud-script\\Terraform\\Personal\\modules\\services\\webserver"
+    source = "./modules/services/webserver"
 }
 
 resource "aws_instance" "personal" {
