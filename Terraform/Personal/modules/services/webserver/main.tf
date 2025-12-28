@@ -47,13 +47,3 @@ data "aws_subnet" "main" {
   vpc_id     = "vpc-04203f9598b6c66bd"
   cidr_block = "172.31.0.0/20"
 }
-
-data "terraform_remote_state" "db" {
-    backend = "s3"
-
-    config = {
-        bucket = var.db_remote_state_bucket
-        key = var.db_remote_state_key
-        region = "ap-northeast-1"
-    }
-}
