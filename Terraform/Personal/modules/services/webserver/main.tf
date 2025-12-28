@@ -2,10 +2,6 @@ provider "aws" {
     region = "ap-northeast-1"
 }
 
-module "webserver" {
-    source = "./modules/services/webserver"
-}
-
 resource "aws_instance" "personal" {
 
     instance_type = "t2.micro"
