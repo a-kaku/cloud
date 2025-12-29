@@ -1,3 +1,3 @@
-output "mes" {
-  value = aws_iam_user.loop
+output "all_arns" {
+  value = values(module.module_server)[*].instance_arn
 }
