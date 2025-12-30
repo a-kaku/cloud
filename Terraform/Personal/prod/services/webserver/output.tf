@@ -1,3 +1,3 @@
 output "tags" {
-    value = var.tags
+    value = module.module_server.tags
 }
