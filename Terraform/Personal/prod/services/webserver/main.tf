@@ -10,7 +10,3 @@ module "module_server" {
         number = "foreach_${each.value}"
     }
 }
-
-output "tags" {
-    value = var.tags
-}
