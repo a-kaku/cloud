@@ -1,3 +1,14 @@
+provider "aws" {
+    region = "ap-northeast-1"
+
+    default_tags {
+        tags = {
+          Owner = "GM"
+          CreatBy = "Terraform"
+        }
+    }
+}
+
 module "module_server" {
     #This is a practice for module and count.
     source = "../../../modules/services/webserver"
