@@ -3,3 +3,4 @@ variable "users" {
   type = list(string)
   default = [ "first","second","third" ]
 }
+

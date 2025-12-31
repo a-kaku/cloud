@@ -16,26 +16,24 @@ resource "aws_security_group" "sg" {
     name = "${var.server_name}-sg"
     description = "Allows apps connect to internet."
 
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+    dynamic "ingress" {
+        for_each = var.ingress_rule
+        content {
+          from_port = var.ingress_rule.value.from_port
+          to_port = var.ingress_rule.value.to_port
+          protocol = var.ingress_rule.value.protocol
+          cidr_blocks = var.ingress_rule.value.cidr_blocks
+        }
     }
 
-    ingress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-
-    }
-
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
+    dynamic "egress" {
+        for_each = var.egress_rule
+        content {
+          from_port = var.egress_rule.value.from_port
+          to_port = var.egress_rule.value.to_port
+          protocol = var.egress_rule.value.protocol
+          cidr_blocks = var.egress_rule.value.cidr_blocks
+        }
     }
 }
 
@@ -43,3 +41,4 @@ data "aws_subnet" "main" {
   vpc_id     = "vpc-04203f9598b6c66bd"
   cidr_block = "172.31.0.0/20"
 }
+
