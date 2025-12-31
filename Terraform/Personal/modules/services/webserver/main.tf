@@ -19,20 +19,20 @@ resource "aws_security_group" "sg" {
     dynamic "ingress" {
         for_each = var.ingress_rule
         content {
-          from_port = var.ingress_rule.value.from_port
-          to_port = var.ingress_rule.value.to_port
-          protocol = var.ingress_rule.value.protocol
-          cidr_blocks = var.ingress_rule.value.cidr_blocks
+          from_port = ingress.from_port
+          to_port = ingress.to_port
+          protocol = ingress.protocol
+          cidr_blocks = ingress.cidr_blocks
         }
     }
 
     dynamic "egress" {
         for_each = var.egress_rule
         content {
-          from_port = var.egress_rule.value.from_port
-          to_port = var.egress_rule.value.to_port
-          protocol = var.egress_rule.value.protocol
-          cidr_blocks = var.egress_rule.value.cidr_blocks
+          from_port = ingress.from_port
+          to_port = ingress.to_port
+          protocol = ingress.protocol
+          cidr_blocks = ingress.cidr_blocks
         }
     }
 }
