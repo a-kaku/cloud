@@ -1,17 +1,5 @@
-module "sftp-01" {
+module "sftp" {
   source = "../Module"
-
-  tags = {
-    Name            = "SFTP-01"
-  }
-}
-
-module "sftp-02" {
-  source = "../Module"
-
-  tags = {
-    Name            = "SFTP-02"
-  }
 
 }
 

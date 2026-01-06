@@ -1,4 +1,14 @@
-resource "aws_instance" "sftp_01" {
+variable "instances" {
+  description = "Variables for EC2 instances."
+  type = map(any)
+  default = {
+    sftp_01 = {}
+    sftp_02 = {}
+  }
+}
+
+resource "aws_instance" "sftp" {
+  for_each = var.instances
   ami           = var.instance_ami
   instance_type = "t3.small"
   subnet_id     = data.aws_subnet.h21local_d.id
@@ -14,7 +24,7 @@ resource "aws_instance" "sftp_01" {
   iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
   tags = {
-    Name            = "SFTP-01"
+    Name            = each.key
     Owner           = "h21local"
     CmBillingGroup  = "h21local"
     Role           = "sftp-server"
