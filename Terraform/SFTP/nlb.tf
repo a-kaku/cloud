@@ -36,8 +36,9 @@ resource "aws_lb_listener" "hgs_nlb_listener" {
   }
 }
 
-resource "aws_lb_target_group" "hgs_nlb_tg01" {
-  name     = "hgs-nlb-tg01"
+resource "aws_lb_target_group" "hgs_nlb_tg" {
+  for_each = module.sftp.instance_ids
+  name     = "nlb-tg-${each.key}"
   port     = 22
   protocol = "TCP"
   target_type = "instance"
@@ -48,26 +49,9 @@ resource "aws_lb_target_group" "hgs_nlb_tg01" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "sftp_01_attachment" {
-  target_group_arn = aws_lb_target_group.hgs_nlb_tg01.arn
-  target_id        = module.sftp-01.instance_ids.sftp_01
-  port             = 22
-}
-
-resource "aws_lb_target_group" "hgs_nlb_tg02" {
-  name     = "hgs-nlb-tg02"
-  port     = 22
-  protocol = "TCP"
-  target_type = "instance"
-  vpc_id = "vpc-66901d03"
-
-  tags = {
-    Name = "hgs-nlb-tg"
-  }
-}
-
-resource "aws_lb_target_group_attachment" "sftp_02_attachment" {
-  target_group_arn = aws_lb_target_group.hgs_nlb_tg02.arn
-  target_id        = module.sftp-02.instance_ids.sftp_02
+resource "aws_lb_target_group_attachment" "sftp_attachment" {
+  for_each = module.sftp.instance_ids
+  target_group_arn = aws_lb_target_group.hgs_nlb_tg[each.key].arn
+  target_id        = each.value
   port             = 22
 }
