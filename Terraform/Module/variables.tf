@@ -1,8 +1,3 @@
-variable "server_name" {
-  description = "The name to use for server resource."
-  type = string
-}
-
 variable "owner" {
   description = "The owner to use for server resource."
   type = string
@@ -27,6 +22,7 @@ variable "instance_ami" {
   default     = "ami-040573aabcd4f9b69"
 }
 
+/*
 variable "ingress_rule" {
     description = "Ingress rule for security group."
     type = list(object({
@@ -46,3 +42,4 @@ variable "egress_rule" {
         cidr_blocks = list(string)
     }))
 }
+*/

@@ -1,45 +1,17 @@
 module "sftp-01" {
-  source = "/../Module/"
-
-  instance_name       = "SFTP-01"
-  instance_ami = var.instance_ami
-  subnet_id           = data.aws_subnet.h21local_d.id
-  root_block_device = {
-    volume_size = 20
-    volume_type = "gp3"
-  }
+  source = "../Module"
 
   tags = {
     Name            = "SFTP-01"
-    Owner           = var.owner
-    CmBillingGroup  = var.CmBillingGroup
   }
-
-  vpc_security_group_ids = [data.aws_security_group.sftp_test.id]
-
-  iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
-
 }
 
 module "sftp-02" {
-  source = "/../Module/"
-
-  instance_name = "SFTP-02"
-  instance_ami = var.instance_ami
-  subnet_id = data.aws_subnet.h21local_a.id
-  root_block_device = {
-    volume_size = 20
-    volume_type = "gp3"
-  }
+  source = "../Module"
 
   tags = {
     Name            = "SFTP-02"
-    Owner           = var.owner
-    CmBillingGroup  = var.CmBillingGroup
   }
-
-  vpc_security_group_ids = [data.aws_security_group.sftp_test.id]
-  iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
 }
 

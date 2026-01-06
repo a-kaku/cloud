@@ -1,10 +1,10 @@
 resource "aws_instance" "sftp_01" {
-  ami           = "ami-040573aabcd4f9b69"
+  ami           = var.instance_ami
   instance_type = "t3.small"
   subnet_id     = data.aws_subnet.h21local_d.id
   root_block_device {
     volume_size = 20
-    volume_type = gp3
+    volume_type = "gp3"
   }
 
   vpc_security_group_ids = [
