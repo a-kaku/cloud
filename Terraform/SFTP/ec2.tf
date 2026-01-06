@@ -1,6 +1,5 @@
 module "sftp" {
   source = "../Module"
-
 }
 
 data "aws_vpc" "vpc_h21group" {
