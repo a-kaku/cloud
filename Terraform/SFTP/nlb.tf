@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "hgs_nlb_tg01" {
 
 resource "aws_lb_target_group_attachment" "sftp_01_attachment" {
   target_group_arn = aws_lb_target_group.hgs_nlb_tg01.arn
-  target_id        = aws_instance.sftp_01.id
+  target_id        = module.sftp-01.instance_ids.sftp_01
   port             = 22
 }
 
