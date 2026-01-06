@@ -1,39 +1,46 @@
-resource "aws_instance" "sftp_01" {
-  ami           = "ami-040573aabcd4f9b69"
-  instance_type = "t3.medium"
-  subnet_id     = data.aws_subnet.h21local_d.id
+module "sftp-01" {
+  source = "/../Module/"
 
-  vpc_security_group_ids = [
-    data.aws_security_group.sftp_test.id
-  ]
-
-  iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
+  instance_name       = "SFTP-01"
+  instance_ami = var.instance_ami
+  subnet_id           = data.aws_subnet.h21local_d.id
+  root_block_device = {
+    volume_size = 20
+    volume_type = "gp3"
+  }
 
   tags = {
     Name            = "SFTP-01"
-    Owner           = "h21local"
-    CmBillingGroup  = "h21local"
-    Role           = "sftp-server"
+    Owner           = var.owner
+    CmBillingGroup  = var.CmBillingGroup
   }
-}
 
-resource "aws_instance" "sftp_02" {
-  ami           = "ami-040573aabcd4f9b69"
-  instance_type = "t3.medium"
-  subnet_id     = data.aws_subnet.h21local_a.id
-
-  vpc_security_group_ids = [
-    data.aws_security_group.sftp_test.id
-  ]
+  vpc_security_group_ids = [data.aws_security_group.sftp_test.id]
 
   iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
+}
+
+module "sftp-02" {
+  source = "/../Module/"
+
+  instance_name = "SFTP-02"
+  instance_ami = var.instance_ami
+  subnet_id = data.aws_subnet.h21local_a.id
+  root_block_device = {
+    volume_size = 20
+    volume_type = "gp3"
+  }
+
   tags = {
     Name            = "SFTP-02"
-    Owner           = "h21local"
-    CmBillingGroup  = "h21local"
-    Role           = "sftp-server"
+    Owner           = var.owner
+    CmBillingGroup  = var.CmBillingGroup
   }
+
+  vpc_security_group_ids = [data.aws_security_group.sftp_test.id]
+  iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
+
 }
 
 data "aws_vpc" "vpc_h21group" {
