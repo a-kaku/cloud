@@ -7,27 +7,29 @@ variable "instances" {
   }
 }
 
-variable "subnet_id" {
-  description = "The subnet Id to launch the EC2 instances in."
-  type = map(string)
-  default = {
+locals {
+  subnets = {
     sftp-01 = data.aws_subnet.h21local_d.id
     sftp-02 = data.aws_subnet.h21local_a.id
   }
 }
 
-
 resource "aws_instance" "sftp" {
   for_each = var.instances
   ami           = var.instance_ami
   instance_type = "t3.small"
-  subnet_id     = var.subnet_id[each.key]
+  subnet_id     = local.subnets[each.key]
   key_name = "h21local"
   iam_instance_profile = data.aws_iam_instance_profile.ec2_for_efs_s3_cloudwatch.name
 
   root_block_device {
     volume_size = 20
     volume_type = "gp3"
+
+    tags = {
+      Name = "${each.key}"
+      CmBillingGroup = "h21local"
+    }
   }
 
   vpc_security_group_ids = [
@@ -42,14 +44,16 @@ resource "aws_instance" "sftp" {
   }
 }
 
-resource "aws_network_interface" "sftp_eni" {
+resource "aws_ebs_volume" "sftp_volume" {
   for_each = aws_instance.sftp
-  subnet_id = var.subnet_id[each.key]
-  tags = {
-    Name = "${each.key}-eni"
-    CmBillingGroup  = "h21local"
-  }
+  size = 20
+  type = "gp3"
+  availability_zone = each.value.availability_zone
 
+  tags = {
+    Name = "${each.key}-volume"
+    CmBillingGroup = "h21local"
+  }
 }
 
 data "aws_vpc" "vpc_h21group" {
