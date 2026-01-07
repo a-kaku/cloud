@@ -128,7 +128,7 @@ resource "aws_ssm_association" "sssd_assoc" {
     values = ["sftp-server"]
   }
 
-  schedule_expression = "cron(0 0 2 * ? *)"
+  schedule_expression = "cron(0 0 0/4 1/1 * ? *)"
   compliance_severity = "HIGH"  
 }
 
@@ -141,6 +141,6 @@ resource "aws_ssm_association" "sshd_assoc" {
     values = ["sftp-server"]
   }
 
-  schedule_expression = "cron(0 0 2 * ? *)"
+  schedule_expression = "cron(0 0 0/4 1/1 * ? *)"
   compliance_severity = "HIGH"
 }
