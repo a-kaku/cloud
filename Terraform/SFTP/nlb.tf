@@ -33,13 +33,12 @@ resource "aws_lb_listener" "hgs_nlb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.hgs_nlb_tg["sftp-01"].arn
+    target_group_arn = aws_lb_target_group.hgs_nlb_tg.arn
   }
 }
 
 resource "aws_lb_target_group" "hgs_nlb_tg" {
-  for_each = var.instances
-  name     = "nlb-tg-${each.key}"
+  name     = "nlb-tg-sftp"
   port     = 22
   protocol = "TCP"
   target_type = "instance"
@@ -51,8 +50,8 @@ resource "aws_lb_target_group" "hgs_nlb_tg" {
 }
 
 resource "aws_lb_target_group_attachment" "sftp_attachment" {
-  for_each = var.instances
-  target_group_arn = aws_lb_target_group.hgs_nlb_tg[each.key].arn
-  target_id        = module.sftp.instance_ids[each.key]
+  for_each = module.sftp.instance_ids
+  target_group_arn = aws_lb_target_group.hgs_nlb_tg.arn
+  target_id        = each.value
   port             = 22
 }
