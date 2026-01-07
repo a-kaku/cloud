@@ -1,19 +1,3 @@
-variable "instances" {
-  description = "Variables for EC2 instances."
-  type = map(any)
-  default = {
-    sftp-01 = {}
-    sftp-02 = {}
-  }
-}
-
-locals {
-  subnets = {
-    sftp-01 = data.aws_subnet.h21local_d.id
-    sftp-02 = data.aws_subnet.h21local_a.id
-  }
-}
-
 resource "aws_instance" "sftp" {
   for_each = var.instances
   ami           = var.instance_ami
