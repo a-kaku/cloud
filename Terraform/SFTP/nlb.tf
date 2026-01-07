@@ -53,6 +53,6 @@ resource "aws_lb_target_group" "hgs_nlb_tg" {
 resource "aws_lb_target_group_attachment" "sftp_attachment" {
   for_each = var.instances
   target_group_arn = aws_lb_target_group.hgs_nlb_tg[each.key].arn
-  target_id        = module.sftp[each.key].id
+  target_id        = module.sftp.instance_ids[each.key]
   port             = 22
 }
