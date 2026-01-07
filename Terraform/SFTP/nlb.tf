@@ -8,6 +8,7 @@ subnets = concat(
 )
   tags = {
     Name = "hgs-nlb"
+    CmBillingGroup = "h21local"
   }
 }
 
@@ -37,7 +38,7 @@ resource "aws_lb_listener" "hgs_nlb_listener" {
 }
 
 resource "aws_lb_target_group" "hgs_nlb_tg" {
-  for_each = module.sftp.instance_ids
+  for_each = module.var.instances
   name     = "nlb-tg-${each.key}"
   port     = 22
   protocol = "TCP"
@@ -50,7 +51,7 @@ resource "aws_lb_target_group" "hgs_nlb_tg" {
 }
 
 resource "aws_lb_target_group_attachment" "sftp_attachment" {
-  for_each = module.sftp.instance_ids
+  for_each = module.var.instances
   target_group_arn = aws_lb_target_group.hgs_nlb_tg[each.key].arn
   target_id        = each.value
   port             = 22

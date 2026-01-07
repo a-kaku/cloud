@@ -44,18 +44,6 @@ resource "aws_instance" "sftp" {
   }
 }
 
-resource "aws_ebs_volume" "sftp_volume" {
-  for_each = aws_instance.sftp
-  size = 20
-  type = "gp3"
-  availability_zone = each.value.availability_zone
-
-  tags = {
-    Name = "${each.key}-volume"
-    CmBillingGroup = "h21local"
-  }
-}
-
 data "aws_vpc" "vpc_h21group" {
   id = "vpc-66901d03"
 }
