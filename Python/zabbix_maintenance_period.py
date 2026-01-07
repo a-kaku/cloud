@@ -27,4 +27,5 @@ def main():
             print(f"Deleted maintenance: {m['name']} (ID: {m['maintenanceid']})")
             deleted_count += 1
 
+
 main()
