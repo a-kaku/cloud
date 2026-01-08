@@ -4,8 +4,6 @@
 
   tasks:
     - name: Install VIM package
-      hosts: all
-      become: yes
       ansible.builtin.package:
         name: vim
         state: present
