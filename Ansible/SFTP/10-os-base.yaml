@@ -1,0 +1,135 @@
+- name: OS-base Playbook
+  hosts: sftp
+  become: yes
+
+  tasks:
+    - name: Disable SElinux
+      ansible.builtin.lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: 'SELINUX=disabled'
+        backup: yes
+      become: yes
+      changed_when: false
+
+    - name: Backup /etc/hosts
+      ansible.builtin.copy:
+        src: /etc/hosts
+        dest: /etc/hosts.org
+        backup: yes
+      become: yes
+      changed_when: false
+
+    - name: Delete localhost6
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '^::1\s+localhost'
+        line: '::1         localhost6 localhost6.localdomain6'
+        backrefs: yes
+      become: yes
+      changed_when: false
+
+- name: Configure Swap on Linux
+  hosts: all
+  become: yes
+  vars:
+    swap_file: /swap_file
+    swap_size: 2048 # Size in MB
+
+  tasks:
+  - name: Check if swap is already exists
+    command: swapon --show
+    register: swap_status
+    changed_when: false
+
+  - name: Create swap file if not exists
+    command: dd if=/dev/zero of={{ swap_file }} bs=1M count={{ swap_size_mb }}
+    when: swap_status.stdout == ""
+    args:
+      creates: "{{ swap_file }}"
+
+  - name: Set swap file permissions
+    file:
+      path: "{{ swap_file }}"
+      owner: root
+      group: root
+      mode: '0600'
+
+  - name: Make swap area
+    command: mkswap {{ swap_file }}
+    when: swap_status.stdout == ""
+
+  - name: Enable swap
+    command: swapon {{ swap_file }}
+    when: swap_status.stdout == ""
+
+  - name: Ensure swap is active
+    command: swapon --show
+    register: swap_check
+    changed_when: false
+
+  - name: Backup fstab
+    copy:
+      src: /etc/fstab
+      dest: /etc/fstab.org
+      owner: root
+      group: root
+      mode: "0644"
+      backup: yes
+
+  - name: Add swap to fstab
+    mount:
+      name: none
+      src: "{{ swap_file }}"
+      fstype: swap
+      opts: defaults
+      state: present
+
+---
+- name: Configure DNS for EFS (AmazonProvidedDNS)
+  hosts: all
+  become: true
+  vars:
+    connection_name: "System eth0"        # Adjust based on your interface name
+    dns_servers: "10.200.0.2 10.200.3.108"
+    dns_search: "hgs.h21group.com"
+
+  tasks:
+    - name: Ensure connection exists
+      command: nmcli connection show "{{ connection_name }}"
+      register: connection_check
+      failed_when: connection_check.rc != 0
+      changed_when: false
+
+    - name: Set DNS search domain
+      command: nmcli connection modify "{{ connection_name }}" ipv4.dns-search "{{ dns_search }}"
+      register: dns_search_result
+
+    - name: Set DNS servers
+      command: nmcli connection modify "{{ connection_name }}" ipv4.dns "{{ dns_servers }}"
+      register: dns_server_result
+
+    - name: Ignore automatic DNS
+      command: nmcli connection modify "{{ connection_name }}" ipv4.ignore-auto-dns yes
+      register: ignore_auto_dns_result
+
+    - name: Restart NetworkManager
+      systemd:
+        name: NetworkManager
+        state: restarted
+
+    - name: Show current DNS configuration
+      command: nmcli device show eth0
+      register: dns_info
+      changed_when: false
+
+    - name: Print resolv.conf
+      command: cat /etc/resolv.conf
+      register: resolv_conf
+      changed_when: false
+
+    - name: Display DNS info
+      debug:
+        msg:
+          - "nmcli device show output:\n{{ dns_info.stdout }}"
+          - "/etc/resolv.conf content:\n{{ resolv_conf.stdout }}"
