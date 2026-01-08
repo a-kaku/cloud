@@ -78,11 +78,10 @@
       backup: yes
 
   - name: Add swap to fstab
-    mount:
-      name: none
-      src: "{{ swap_file }}"
-      fstype: swap
-      opts: defaults
+    lineinfile:
+      path: /etc/fstab
+      line: "/swapfile1 swap swap defaults 0 0"
+      create: yes
       state: present
 
 - name: Configure DNS for EFS (AmazonProvidedDNS)
