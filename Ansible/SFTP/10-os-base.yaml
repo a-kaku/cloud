@@ -43,7 +43,7 @@
     changed_when: false
 
   - name: Create swap file if not exists
-    command: dd if=/dev/zero of={{ swap_file }} bs=1M count={{ swap_size_mb }}
+    command: dd if=/dev/zero of={{ swap_file }} bs=1M count={{ swap_size }}
     when: swap_status.stdout == ""
     args:
       creates: "{{ swap_file }}"
