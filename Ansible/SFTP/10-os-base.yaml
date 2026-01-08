@@ -85,7 +85,6 @@
       opts: defaults
       state: present
 
----
 - name: Configure DNS for EFS (AmazonProvidedDNS)
   hosts: all
   become: true
