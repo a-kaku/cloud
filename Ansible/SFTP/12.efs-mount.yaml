@@ -1,4 +1,3 @@
----
 - name: Install amazon-efs-utils via RPM
   hosts: sftp
   become: true
