@@ -16,9 +16,10 @@
       changed_when: false
 
     - name: Install Amazon SSM Agent from RPM
-      ansible.builtin.rpm:
-        name: https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-        state: present
+      ansible.builtin.command:
+        cmd: rpm -Uvh https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+      args:
+        creates: /usr/bin/amazon-ssm-agent 
 
     - name: Enable SSM Agent service
       ansible.builtin.service:
