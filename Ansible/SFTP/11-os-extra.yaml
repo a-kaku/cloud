@@ -15,14 +15,9 @@
         state: present
       changed_when: false
 
-    - name: Import Amazon SSM Agent GPG key
-      ansible.builtin.rpm_key:
-        key: https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.gpg
-        state: present
-
-    - name: Install and enable SSM Agent
-      ansible.builtin.dnf:
-        name: https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+    - name: Install Amazon SSM Agent
+      ansible.builtin.package:
+        name: amazon-ssm-agent
         state: present
 
     - name: Enable SSM Agent service
