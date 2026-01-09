@@ -1,34 +1,31 @@
-- name: Install amazon-efs-utils via RPM
+- name: Create EFS mount point and update fstab
   hosts: sftp
   become: true
+
   vars:
-    efs_utils_version: "1.60.1"
-    efs_utils_rpm_url: "https://github.com/aws/efs-utils/releases/download/v{{ efs_utils_version }}/amazon-efs-utils-{{ efs_utils_version }}-1.el9.x86_64.rpm"
-    efs_utils_rpm_path: "/tmp/amazon-efs-utils-{{ efs_utils_version }}.rpm"
+    efs_id: "fs-07b0d14b09a559eb6"
+    efs_region: "ap-northeast-1"
+    efs_mount_point: "/srv/efs"
 
   tasks:
 
-    - name: Ensure wget and dependencies are installed
-      ansible.builtin.dnf:
-        name:
-          - wget
-          - nfs-utils
-          - libcurl
-        state: present
-
-    - name: Download amazon-efs-utils RPM
-      ansible.builtin.get_url:
-        url: "{{ efs_utils_rpm_url }}"
-        dest: "{{ efs_utils_rpm_path }}"
-        mode: '0644'
-
-    - name: Install amazon-efs-utils via RPM
-      ansible.builtin.dnf:
-        name: "{{ efs_utils_rpm_path }}"
-        state: present
-
-    - name: Ensure mount point exists
+    - name: Ensure EFS mount directory exists
       ansible.builtin.file:
-        path: /mnt/efs
+        path: "{{ efs_mount_point }}"
         state: directory
         mode: '0755'
+
+    - name: Add EFS entry to /etc/fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        line: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/ {{ efs_mount_point }} efs defaults,_netdev 0 0"
+        state: present
+        create: yes
+
+    - name: Mount EFS
+      ansible.posix.mount:
+        path: "{{ efs_mount_point }}"
+        src: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/"
+        fstype: efs
+        opts: defaults,_netdev
+        state: mounted
