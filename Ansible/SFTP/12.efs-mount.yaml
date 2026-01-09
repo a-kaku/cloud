@@ -22,10 +22,10 @@
         dest: "{{ efs_utils_rpm_path }}"
         mode: '0644'
 
-    - name: Install amazon-efs-utils via rpm
-      ansible.builtin.rpm:
-        state: present
+    - name: Install amazon-efs-utils via RPM
+      ansible.builtin.dnf:
         name: "{{ efs_utils_rpm_path }}"
+        state: present
 
     - name: Ensure mount point exists
       ansible.builtin.file:
