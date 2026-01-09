@@ -1,0 +1,21 @@
+- name: Install extra repositories and packages
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install EPEL repository
+      ansible.builtin.dnf:
+        name: epel-release
+        state: present
+      changed_when: false
+
+    - name: Install and enable SSM Agent
+      ansible.builtin.package:
+        name: amazon-ssm-agent
+        state: present
+
+    - name: Enable SSM Agent service
+      ansible.builtin.service:
+        name: amazon-ssm-agent
+        state: started
+        enabled: true

@@ -89,7 +89,7 @@
   become: true
   vars:
     connection_name: "System eth0"        # Adjust based on your interface name
-    dns_servers: "10.200.0.2 10.200.3.108"
+    dns_servers: "10.200.0.2 10.200.3.108"    # EFS DNS servers
     dns_search: "hgs.h21group.com"
 
   tasks:
