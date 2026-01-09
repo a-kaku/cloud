@@ -26,3 +26,12 @@
         name: amazon-ssm-agent
         state: started
         enabled: true
+
+    - name: Install awscli packages
+      ansible.builtin.dnf:
+        name:
+          - awscli
+        state: present
+      changed_when: false
+
+      

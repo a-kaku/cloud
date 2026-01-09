@@ -1,0 +1,35 @@
+---
+- name: Install amazon-efs-utils via RPM
+  hosts: sftp
+  become: true
+  vars:
+    efs_utils_version: "1.60.1"
+    efs_utils_rpm_url: "https://github.com/aws/efs-utils/releases/download/v{{ efs_utils_version }}/amazon-efs-utils-{{ efs_utils_version }}-1.el9.x86_64.rpm"
+    efs_utils_rpm_path: "/tmp/amazon-efs-utils-{{ efs_utils_version }}.rpm"
+
+  tasks:
+
+    - name: Ensure wget and dependencies are installed
+      ansible.builtin.dnf:
+        name:
+          - wget
+          - nfs-utils
+          - libcurl
+        state: present
+
+    - name: Download amazon-efs-utils RPM
+      ansible.builtin.get_url:
+        url: "{{ efs_utils_rpm_url }}"
+        dest: "{{ efs_utils_rpm_path }}"
+        mode: '0644'
+
+    - name: Install amazon-efs-utils via rpm
+      ansible.builtin.rpm:
+        state: present
+        name: "{{ efs_utils_rpm_path }}"
+
+    - name: Ensure mount point exists
+      ansible.builtin.file:
+        path: /mnt/efs
+        state: directory
+        mode: '0755'
