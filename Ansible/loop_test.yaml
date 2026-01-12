@@ -1,0 +1,9 @@
+- name: Practice how can using the loop function.
+  hosts: all
+  become: true
+
+  tasks:
+    - name: install packages
+      ansible.builtin.command:
+        echo "we just want output the variables:{{ item }}"
+      loop: ["nginx","postgresql"]
