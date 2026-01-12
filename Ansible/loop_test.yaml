@@ -4,6 +4,8 @@
 
   tasks:
     - name: install packages
-      ansible.builtin.command:
-        echo "we just want output the variables:{{ item }}"
-      loop: ["nginx","postgresql"]
+      ansible.builtin.dnf:
+        name: {{ item }}
+        state: latest
+      loop: ["nginx","docker"]
+      changed_when: false
