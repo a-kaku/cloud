@@ -1,5 +1,6 @@
 module "sftp" {
   source = "../Module"
+  efs_subnet_ids = var.efs_subnet_ids
 }
 
 data "aws_vpc" "vpc_h21group" {
