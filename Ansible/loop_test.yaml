@@ -1,0 +1,12 @@
+- name: Practice how can using the loop function.
+  hosts: all
+  become: true
+
+  tasks:
+    - name: install packages
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: latest
+      loop: ["nginx","wget"]
+      when: ansible_facts['os_family'] == 'RedHat'
+      changed_when: false
