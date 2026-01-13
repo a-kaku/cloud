@@ -18,14 +18,26 @@
     - name: Add EFS entry to /etc/fstab
       ansible.builtin.lineinfile:
         path: /etc/fstab
+<<<<<<< HEAD
         line: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/ {{ efs_mount_point }} efs _netdev,tls 0 0"
+=======
+        line: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/ {{ efs_mount_point }} efs defaults,_netdev 0 0"
+>>>>>>> 5a344f2f6f6d0b61d541997d65fdec117c40be4b
         state: present
         create: yes
 
     - name: Mount EFS
+<<<<<<< HEAD
       ansible.builtin.mount:
         path: "{{ efs_mount_point }}"
         src: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/"
         fstype: efs
         opts: _netdev,tls
+=======
+      ansible.posix.mount:
+        path: "{{ efs_mount_point }}"
+        src: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/"
+        fstype: efs
+        opts: defaults,_netdev
+>>>>>>> 5a344f2f6f6d0b61d541997d65fdec117c40be4b
         state: mounted
