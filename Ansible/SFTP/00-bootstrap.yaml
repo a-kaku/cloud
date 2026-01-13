@@ -1,0 +1,102 @@
+- name: Bootstrap Playbook
+  hosts: sftp
+  become: yes
+
+  tasks:
+    - name: Install VIM package
+      ansible.builtin.package:
+        name: vim
+        state: present
+
+    - name: Backup /etc/vimrc
+      ansible.builtin.copy:
+        src: /etc/vimrc
+        dest: /etc/vimrc.org
+        remote_src: yes
+        owner: root
+        group: root
+        mode: '0644'
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Configure VIM settings
+      ansible.builtin.blockinfile:
+        path: /etc/vimrc
+        marker: '" {mark} ヒガシ21 vim 設定'
+        block: |
+          " ## ヒガシ21の設定
+          " 文字コードの自動判定
+          set encoding=utf-8
+          set fileencoding=utf-8
+          set fileencodings=utf-8,euc-jp,cp932
+
+          " 改行コードの自動認識
+          set fileformats=unix,dos,mac
+
+          " □とか○の文字があってもカーソル位置がずれないようにする
+          if exists('&ambiwidth')
+            set ambiwidth=double
+          endif
+
+          " 行番号を自動追加
+          set number
+
+          " タブ文字数の設定
+          set tabstop=2
+        create: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Install dnf-automatic package
+      ansible.builtin.package:
+        name: dnf-automatic
+        state: present
+
+    - name: Backup automatic.conf
+      ansible.builtin.copy:
+        src: /etc/dnf/automatic.conf
+        dest: /etc/dnf/automatic.conf.org
+        remote_src: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Set upgrad_type to security
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/automatic.conf
+        regexp: '^upgrade_type ='
+        line: 'upgrade_type = security'
+
+    - name: Set random_sleep to 360
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/automatic.conf
+        regexp: '^random_sleep ='
+        line: 'random_sleep = 360'
+
+    - name: Set apply_updates = yes
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/automatic.conf
+        regexp: '^apply_updates ='
+        line: 'apply_updates = yes'
+
+    - name: Enable dnf-automatic timer
+      ansible.builtin.systemd:
+        name: dnf-automatic.timer
+        enabled: yes
+        state: started
+
+    - name: Configure locale, timezone, keymap
+      ansible.builtin.command: >
+        localectl set-locale LANG=en_us.UTF-8
+      changed_when: false
+
+    - name: Set keymap to jp106
+      ansible.builtin.command: >
+        localectl set-keymap jp106
+      changed_when: false
+
+    - name: Set timezone to Asia/Tokyo
+      ansible.builtin.command: >
+        timedatectl set-timezone Asia/Tokyo
+        become: yes
+      changed_when: false

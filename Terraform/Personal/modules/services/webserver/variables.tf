@@ -1,0 +1,38 @@
+variable "server_name" {
+  description = "The name to use for server resource."
+  type = string
+}
+
+variable "db_remote_state_bucket" {
+    description = "The name of the S3 bucket for the database's remote state."
+    type = string
+}
+
+variable "db_remote_state_key" {
+    description = "The path for the database's remote state in S3."
+    type = string
+}
+
+variable "tags" {
+  description = "Custom tags to set on the Instances."
+  type = map(string)
+  default = {}
+}
+
+variable "ingress_rule" {
+  type = list(object({
+    from_port = number
+    to_port = number
+    protocol = string
+    cidr_blocks = list(string)
+  }))
+}
+
+variable "egress_rule" {
+  type = list(object({
+    from_port = number
+    to_port = number
+    protocol = string
+    cidr_blocks = list(string)
+  }))  
+}

@@ -1,0 +1,31 @@
+- name: Create EFS mount point and update fstab
+  hosts: sftp
+  become: true
+
+  vars:
+    efs_id: "fs-07b0d14b09a559eb6"
+    efs_region: "ap-northeast-1"
+    efs_mount_point: "/srv/efs"
+
+  tasks:
+
+    - name: Ensure EFS mount directory exists
+      ansible.builtin.file:
+        path: "{{ efs_mount_point }}"
+        state: directory
+        mode: '0755'
+
+    - name: Add EFS entry to /etc/fstab
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        line: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/ {{ efs_mount_point }} efs defaults,_netdev 0 0"
+        state: present
+        create: yes
+
+    - name: Mount EFS
+      ansible.posix.mount:
+        path: "{{ efs_mount_point }}"
+        src: "{{ efs_id }}.efs.{{ efs_region }}.amazonaws.com:/"
+        fstype: efs
+        opts: defaults,_netdev
+        state: mounted
