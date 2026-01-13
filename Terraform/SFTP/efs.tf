@@ -14,3 +14,10 @@ resource "aws_efs_file_system" "sftp_efs" {
       CmBillingGroup = "h21local"
     }
 }
+
+resource "aws_efs_mount_target" "mount_targets" {
+  for_each = toset(var.efs_subnet_ids)
+  file_system_id = aws_efs_file_system.sftp_efs.id
+  subnet_id = each.value
+  security_groups = ["sg-0f724466d87b9ab49"]
+}
