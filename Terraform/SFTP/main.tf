@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "efs" {
-  source = "./module"
+  source = "../module"
   efs_subnet_ids = var.efs_subnet_ids
 }
 
