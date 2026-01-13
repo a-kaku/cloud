@@ -1,0 +1,1 @@
+efs_subnet_ids = ["subnet-049ebd93a6261da06", "subnet-04ac6c682bf80de34"]

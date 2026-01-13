@@ -38,6 +38,11 @@ variable "instance_ami" {
   default     = "ami-040573aabcd4f9b69"
 }
 
+variable "efs_subnet_ids" {
+  description = "Subnets for EFS mount targets."
+  type = list(string)
+}
+
 /*
 variable "ingress_rule" {
     description = "Ingress rule for security group."

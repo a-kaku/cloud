@@ -6,3 +6,8 @@ variable "instances" {
     "sftp-02" = {}
   }
 }
+
+variable "efs_subnet_ids" {
+  description = "Subnets for EFS mount targets."
+  type = list(string)
+}
