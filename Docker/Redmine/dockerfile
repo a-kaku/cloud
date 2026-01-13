@@ -1,0 +1,9 @@
+FROM redmine:3.4.8
+
+COPY ./plugins /usr/src/redmine/plugins
+COPY ./config /usr/src/redmine/config
+COPY ./files /usr/src/redmine/files
+
+RUN bundle install
+RUN rake db:migrate RAILS_ENV=production
+RUN rake redmine:plugins:migrate RAILS_ENV=production

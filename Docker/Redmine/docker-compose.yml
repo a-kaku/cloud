@@ -1,0 +1,48 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 21higashi
+      MARIADB_DATABASE: redmine3
+      MARIADB_USER: redmine
+      MARIADB_PASSWORD: redminepass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - redmine-net
+
+  redmine:
+    image: redmine:6.0
+    container_name: redmine
+    restart: always
+    ports:
+      - "8022:3000"
+    environment:
+      REDMINE_DB_MYSQL: mariadb
+      REDMINE_DB_DATABASE: redmine3
+      REDMINE_DB_USERNAME: redmine
+      REDMINE_DB_PASSWORD: redminepass
+    volumes:
+      - redmine_files:/usr/src/redmine/files
+      - ./plugins:/usr/src/redmine/plugins
+      - ./config/configuration.yml:/usr/src/redmine/config/configuration.yml
+
+    networks:
+      - redmine-net
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:
+  redmine_files:
+  redmine_plugins:
+
+networks:
+  redmine-net:
+    driver: bridge
+
+
