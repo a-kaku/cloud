@@ -13,6 +13,7 @@ resource "aws_instance" "sftp" {
     tags = {
       Name = "${each.key}"
       CmBillingGroup = "h21local"
+      Role = "sftp-server"
     }
   }
 
