@@ -1,20 +1,16 @@
 - name: Configure Hostname and custom banner
   hosts: all
   become: true
-  vars:
-    hostnames: ['sftp-01','sftp-02']
 
   tasks:
     - name: Set Hostname
+      become: true
       ansible.builtin.hostname:
-        name: "{{ item }}"
-      loop: "{{ hostnames }}"
-      when: inventory_hostname == item
-      changed_when: false
+        name: "{{ inventory_hostname }}"
   
     - name: Create login banner script
       copy:
-        dest: /etc/profile.d/login-banner.show
+        dest: /etc/profile.d/login-banner.sh
         content: |
           #!/bin/bash
           echo ""
