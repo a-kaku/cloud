@@ -20,4 +20,8 @@ resource "aws_efs_mount_target" "mount_targets" {
   file_system_id = aws_efs_file_system.sftp_efs.id
   subnet_id = each.value
   security_groups = ["sg-0f724466d87b9ab49"]
+
+  lifecycle {
+    ignore_changes = [ file_system_id ]
+  }
 }
