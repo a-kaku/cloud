@@ -1,3 +1,7 @@
 [sftp]
-sftp-01 10.200.1.194 ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/h21local.pem
-sftp-02 10.200.3.182 ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/h21local.pem
+sftp-01 ansible_hostname=10.200.1.194
+sftp-02 ansible_hostname=10.200.3.182
+
+[sftp:vars]
+ansible_user=ec2-user
+ansible_ssh_private_key_files=~/.ssh/h21local.pem
