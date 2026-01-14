@@ -7,3 +7,4 @@
 # Optional
 *.backup
 *.log
+*sensitive.tfvars
