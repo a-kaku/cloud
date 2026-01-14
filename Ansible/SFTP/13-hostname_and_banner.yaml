@@ -1,5 +1,5 @@
 - name: Configure Hostname and custom banner
-  host: all
+  hosts: all
   become: true
   vars:
     hostnames: ['sftp-01','sftp-02']
