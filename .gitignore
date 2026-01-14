@@ -3,8 +3,8 @@
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
+*sensitive*
 
 # Optional
 *.backup
 *.log
-*sensitive.tfvars
