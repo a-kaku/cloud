@@ -32,7 +32,7 @@
     - name: Edite /etc/motd
       become: true
       ansible.builtin.template:
-        src: motd.j2
+        src: 14-motd.j2
         dest: /etc/motd
         mode: '0644'
       changed_when: false
