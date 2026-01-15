@@ -15,7 +15,7 @@
         group: sftp_recv
         home: /srv/efs/sftp/recvA
         password: "{{ sftp_password.recvA }}"
-  var_files:
+  vars_files:
     - sensitive_parameters.yaml
 
   tasks:
