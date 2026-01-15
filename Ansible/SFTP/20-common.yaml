@@ -1,0 +1,40 @@
+- name: Create SFTP groups and users
+  hosts: sftp
+  become: yes
+  vars:
+    sftp_groups:
+      - sftp_send
+      - sftp_recv
+
+    sftp_users:
+      - name: sendA
+        group: sftp_send
+        home: /srv/efs/sftp/sendA
+        password: "{{ sftp_password.sendA }}"
+      - name: recvA
+        group: sftp_recv
+        home: /srv/efs/sftp/recvA
+        password: "{{ sftp_password.recvA }}"
+  var_files:
+    - sensitive_parameters.yaml
+
+  tasks:
+    - name: Create SFTP groups
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ sftp_groups}}"
+      changed_when: false
+
+    - name: Create SFTP users
+      ansible.builtin.user:
+        name: "{{ item.name}}"
+        group: "{{ item.group }}"
+        home: "{{ item.home }}"
+        password: "{{ item.password }}"
+        shell: /sbin/nologin
+        state: present
+        create_home: yes
+      loop: "{{ sftp_users }}"
+      changed_when: false
+
