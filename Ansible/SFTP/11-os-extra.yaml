@@ -34,4 +34,20 @@
         state: present
       changed_when: false
 
+    - name: Install inotify-tools
+      ansible.builtin.dnf:
+        name:
+          - inotify-tools
+          - openssh-server
+        state: present
+      changed_when: false
+
+    - name: Enable openssh
+      ansible.builtin.service:
+        name: sshd
+        state: started
+        enabled: true
+      changed_when: false
+
+
       
