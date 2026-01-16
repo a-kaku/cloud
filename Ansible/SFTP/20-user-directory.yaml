@@ -1,0 +1,74 @@
+- name: Create SFTP groups and users
+  hosts: sftp
+  become: yes
+  vars:
+    sftp_groups:
+      - sftp_send
+      - sftp_recv
+
+    sftp_users:
+      - name: sendA
+        group: sftp_send
+        home: /srv/efs/sftp/sendA
+      - name: recvA
+        group: sftp_recv
+        home: /srv/efs/sftp/recvA
+  vars_files:
+    - /home/ec2-user/cloud/Ansible/SFTP/sensitive_parameters.yaml
+
+  tasks:
+    - name: Create SFTP groups
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ sftp_groups}}"
+      changed_when: false
+
+    - name: Create SFTP users
+      ansible.builtin.user:
+        name: "{{ item.name}}"
+        group: "{{ item.group }}"
+        home: "{{ item.home }}"
+        password: "{{ sftp_passwords[item.name] }}"
+        shell: /sbin/nologin
+        state: present
+        create_home: yes
+      loop: "{{ sftp_users }}"
+      changed_when: false
+
+- name: Create SFTP directory strcture for SystemA
+  hosts: sftp
+  become: yes
+  vars:
+    base_dir: /srv/efs/sftp
+    system_name: SystemA
+
+  tasks:
+    - name: Create base directories
+      ansible.builtin.file:
+        path: "{{ base_dir }}/{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      loop:
+        - uploads
+        - downloads
+        - processed
+        - users
+      changed_when: false
+
+    - name: Create system directories
+      ansible.builtin.file:
+        path: "{{ base_dir }}/{{ item }}/{{ system_name }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0750'
+      loop:
+        - uploads
+        - downloads
+        - processed
+      changed_when: false
+
+      
