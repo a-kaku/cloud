@@ -1,0 +1,32 @@
+- name: Connect to ManagedAD
+  hosts: sftp
+  become: yes
+  vars:
+    ad_domain: hgs.h21group.com
+    ad_admin: h21admin
+  
+  tasks:
+    - name: Check if already joined to AD
+      command: realm list
+      register: realm_list
+      changed_when: false
+
+    - name: Join ManagedAD
+      command: >
+        realm join
+        -U {{ ad_admin }}
+        {{ ad_domain }}
+      when: ad_domain not in realm_list.stdout
+
+    - name: Install oddjob-mkhomedir
+      package:
+        name: oddjob-mkhomedir
+        state: present
+      changed_when: false
+
+    - name: Enable automatic home directory creation
+      command: >
+        authconfig
+        --enablemkhomedir
+        --update
+      changed_when: false
