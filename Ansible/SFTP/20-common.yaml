@@ -29,7 +29,7 @@
         name: "{{ item.name}}"
         group: "{{ item.group }}"
         home: "{{ item.home }}"
-        password: "{{ sftp_password[item.name] }}"
+        password: "{{ sftp_passwords[item.name] }}"
         shell: /sbin/nologin
         state: present
         create_home: yes
