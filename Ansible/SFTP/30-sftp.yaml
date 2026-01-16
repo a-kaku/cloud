@@ -3,7 +3,7 @@
   become: yes
   vars:
     ad_domain: hgs.h21group.com
-    ad_admin: h21admin
+    ad_admin: ''
   
   tasks:
     - name: Check if already joined to AD
