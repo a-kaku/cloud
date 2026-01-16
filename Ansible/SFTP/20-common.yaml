@@ -10,11 +10,9 @@
       - name: sendA
         group: sftp_send
         home: /srv/efs/sftp/sendA
-        password: "{{ sftp_password.sendA }}"
       - name: recvA
         group: sftp_recv
         home: /srv/efs/sftp/recvA
-        password: "{{ sftp_password.recvA }}"
   vars_files:
     - sensitive_parameters.yaml
 
@@ -31,7 +29,7 @@
         name: "{{ item.name}}"
         group: "{{ item.group }}"
         home: "{{ item.home }}"
-        password: "{{ item.password }}"
+        password: "{{ sftp_password[item.name] }}"
         shell: /sbin/nologin
         state: present
         create_home: yes
