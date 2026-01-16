@@ -14,7 +14,7 @@
         group: sftp_recv
         home: /srv/efs/sftp/recvA
   vars_files:
-    - sensitive_parameters.yaml
+    - /home/ec2-user/cloud/Ansible/SFTP/sensitive_parameters.yaml
 
   tasks:
     - name: Create SFTP groups
