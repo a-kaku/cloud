@@ -6,6 +6,25 @@
     ad_admin: ''
   
   tasks:
+    - name: Install oddjob-mkhomedir
+      package:
+        name: 
+          - realmd
+          - sssd
+          - oddjob
+          - oddjob-mkhomedir
+          - adcli
+          - samba-common-tools
+        state: present
+      changed_when: false
+
+    - name: Enable automatic home directory creation
+      command: >
+        authconfig
+        --enablemkhomedir
+        --update
+      changed_when: false
+
     - name: Check if already joined to AD
       command: realm list
       register: realm_list
@@ -17,16 +36,3 @@
         -U {{ ad_admin }}
         {{ ad_domain }}
       when: ad_domain not in realm_list.stdout
-
-    - name: Install oddjob-mkhomedir
-      package:
-        name: oddjob-mkhomedir
-        state: present
-      changed_when: false
-
-    - name: Enable automatic home directory creation
-      command: >
-        authconfig
-        --enablemkhomedir
-        --update
-      changed_when: false
