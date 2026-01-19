@@ -1,0 +1,88 @@
+- name: Deploy SFTP Upload Watcher on RHEL/
+  hosts: sftp-01
+  become: true
+  vars:
+    upload_base: "/srv/efs/sftp/uploads"
+    download_base: "/srv/efs/sftp/downloads"
+    processed_base: "/srv/efs/sftp/processed"
+    log_file: "/var/log/sftp_process.log"
+    script_path: "/usr/local/bin/sftp_upload_watcher.sh"
+    service_name: "sftp_upload_watcher.service"
+
+  tasks:
+
+    - name: Ensure inotify-tools is installed
+      dnf:
+        name: inotify-tools
+        state: present
+
+    - name: Ensure log file exists
+      file:
+        path: "{{ log_file }}"
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Deploy SFTP watcher script
+      copy:
+        dest: "{{ script_path }}"
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          # ============================================
+          # SFTPアップロード検知＆ダウンロードフォルダへ自動移動
+          # ============================================
+          UPLOAD_BASE="{{ upload_base }}"
+          DOWNLOAD_BASE="{{ download_base }}"
+          PROCESSED_BASE="{{ processed_base }}"
+          LOG="{{ log_file }}"
+          inotifywait -mr -e close_write,moved_to "$UPLOAD_BASE" | while read path action file; do
+            case "$file" in
+              *.tmp|*.part) continue ;;
+            esac
+            system=$(echo "$path" | awk -F'/' '{print $(NF-1)}')
+            src="${path}${file}"
+            dst_dir="${DOWNLOAD_BASE}/${system}"
+            dst="${dst_dir}/${file}"
+            bak_dir="${PROCESSED_BASE}/${system}"
+            timestamp=$(date '+%Y%m%d%H%M%S')
+            bak="${bak_dir}/${file}.${timestamp}.tar.gz"
+            mkdir -p "$dst_dir" "$bak_dir"
+            if tar -czf "$bak" "$src"; then
+              echo "[$(date '+%F %T')] ${system}: ${file} archive from $path to $bak_dir" >> "$LOG"
+            else
+              echo "[$(date '+%F %T')] ERROR archiving ${file} from ${path}" >>"$LOG"
+            fi
+            if mv "$src" "$dst"; then
+              echo "[$(date '+%F %T')] ${system}: ${file} move from $path to $dst_dir" >> "$LOG"
+            else
+              echo "[$(date '+%F %T')] ERROR moving ${file} from ${path}" >> "$LOG"
+            fi
+          done
+
+    - name: Deploy systemd service file
+      copy:
+        dest: "/etc/systemd/system/{{ service_name }}"
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=SFTP Upload Watcher
+          After=network.target remote-fs.target
+          Requires=remote-fs.target
+
+          [Service]
+          ExecStart={{ script_path }}
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Enable and start SFTP watcher service
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: started
