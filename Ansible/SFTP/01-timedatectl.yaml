@@ -3,7 +3,7 @@
   become: yes
   tasks:
     - name: Set timezone to Asia/Tokyo
-      ansible.builtin.command: >
-        timedatectl set-timezone Asia/Tokyo
-        become: yes
+      ansible.builtin.timezone:
+        name: Asia/Tokyo
+      become: yes
       changed_when: false
