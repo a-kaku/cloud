@@ -1,3 +1,7 @@
+- name: Configure system timezone
+  hosts: all
+  become: yes
+  tasks:
     - name: Set timezone to Asia/Tokyo
       ansible.builtin.command: >
         timedatectl set-timezone Asia/Tokyo
