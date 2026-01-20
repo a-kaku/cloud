@@ -22,7 +22,7 @@
     - name: Install CloudWatch Agent (RHEL/Rocky/Alma)
       dnf:
         name: https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm
-      state: present
+        state: present
 
     - name: Deploy CloudWatch Agent configuration
       copy:
