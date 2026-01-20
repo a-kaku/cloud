@@ -19,10 +19,10 @@
     monthly_reboot_cron: "0 3 15-21 * * [ \"$(date '+\\%w')\" -eq 0 ] && /usr/sbin/reboot"
 
   tasks:
-    - name: Install CloudWatch Agent
-      yum:
-        name: amazon-cloudwatch-agent
-        state: present
+    - name: Install CloudWatch Agent (RHEL/Rocky/Alma)
+      dnf:
+        name: https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm
+      state: present
 
     - name: Deploy CloudWatch Agent configuration
       copy:
@@ -168,15 +168,15 @@
       register: zabbix_key
 
     - name: Install Zabbix agent2 repo package
-      yum:
+      dnf:
         name: https://repo.zabbix.com/zabbix/6.0/rhel/9/x86_64/zabbix-release-6.0-4.el9.noarch.rpm
         state: present
 
-    - name: Clean yum cache
-      command: yum clean all
+    - name: Clean dnf cache
+      command: dnf clean all
 
     - name: Install Zabbix agent2
-      yum:
+      dnf:
         name:
           - zabbix-agent2
           - zabbix-agent2-plugin-*
