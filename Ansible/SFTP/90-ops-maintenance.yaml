@@ -1,0 +1,238 @@
+- name: Setup SFTP server monitoring
+  hosts: sftp
+  become: yes
+  vars:
+    instance_id: "sftp-01"
+    cloudwatch_config_path: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
+    log_export_script: "/usr/local/bin/export_sftp_logs.sh"
+    log_export_service: "export_sftp_logs.service"
+    log_export_timer: "export_sftp_logs.timer"
+    sftp_logs:
+      - path: "/var/log/sftp.log"
+        owner: root
+        group: ec2-user
+      - path: "/var/log/sftp_process.log"
+        owner: root
+        group: ec2-user
+    zabbix_psk_file: "/etc/zabbix/zabbix_agentd.psk"
+    zabbix_server: "zabbix.h21.private"
+    monthly_reboot_cron: "0 3 15-21 * * [ \"$(date '+\\%w')\" -eq 0 ] && /usr/sbin/reboot"
+
+  tasks:
+    - name: Install CloudWatch Agent
+      yum:
+        name: amazon-cloudwatch-agent
+        state: present
+
+    - name: Deploy CloudWatch Agent configuration
+      copy:
+        dest: "{{ cloudwatch_config_path }}"
+        content: |
+          {
+           "logs": {
+           "logs_collected": {
+           "files": {
+           "collect_list": [
+             {
+               "file_path": "/var/log/sftp.log",
+               "log_group_name": "/var/log/sftp.log",
+               "log_stream_name": "{instance_id}-sftp",
+               "timestamp_format": "%b %d %H:%M:%S"
+             },
+             {
+               "file_path": "/var/log/secure",
+               "log_group_name": "/var/log/secure",
+               "log_stream_name": "{instance_id}-secure",
+               "timestamp_format": "%b %d %H:%M:%S"
+             },
+             {
+               "file_path": "/var/log/sftp_process.log",
+               "log_group_name": "/var/log/sftp_process.log",
+               "log_stream_name": "{instance_id}-sftp-process",
+               "timestamp_format": "%Y-%m-%d %H:%M:%S"
+             }
+           ]
+           }
+           },
+           "log_stream_name": "default",
+           "force_flush_interval": 15
+           },
+           "agent": {
+           "run_as_user": "root"
+           }
+          }
+      notify: restart cloudwatch agent
+
+    - name: Enable and start CloudWatch Agent
+      systemd:
+        name: amazon-cloudwatch-agent
+        enabled: yes
+        state: started
+
+    - name: Create CloudWatch export script
+      copy:
+        dest: "{{ log_export_script }}"
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          INSTANCE_ID="{{ instance_id }}"
+          PREFIX="sftp.logs/$(date +%F)/${INSTANCE_ID}-secure"
+          aws logs create-export-task \
+            --task-name "DailyExportSftpLogs-${INSTANCE_ID}" \
+            --log-group-name "/aws/instance/sftp/log" \
+            --from $(date --date='1 day ago' +%s000) \
+            --to $(date +%s000) \
+            --destination "h21.systemlog" \
+            --destination-prefix "$PREFIX"
+
+    - name: Create systemd service for log export
+      copy:
+        dest: "/etc/systemd/system/{{ log_export_service }}"
+        content: |
+          [Unit]
+          Description=Export SFTP Logs to S3
+          Wants=network-online.target
+          After=network-online.target
+
+          [Service]
+          Type=oneshot
+          ExecStart={{ log_export_script }}
+          User=root
+          Group=root
+      notify: reload systemd
+
+    - name: Create systemd timer for log export
+      copy:
+        dest: "/etc/systemd/system/{{ log_export_timer }}"
+        content: |
+          [Unit]
+          Description=Run export_sftp_logs.service daily
+
+          [Timer]
+          OnCalendar=*-*-* 13:00:00
+          Persistent=true
+
+          [Install]
+          WantedBy=timers.target
+      notify: reload systemd
+
+    - name: Enable and start log export timer
+      systemd:
+        name: "{{ log_export_timer }}"
+        enabled: yes
+        state: started
+
+    - name: Setup logrotate for SFTP logs
+      copy:
+        dest: "/etc/logrotate.d/sftp"
+        content: |
+          /var/log/sftp.log {
+           daily
+           rotate 14
+           compress
+           delaycompress
+           missingok
+           notifempty
+           create 0640 root ec2-user
+           dateext
+           dateformat -%Y%m%d
+           sharedscripts
+           postrotate
+            systemctl restart amazon-cloudwatch-agent > /dev/null 2>&1 || true
+           endscript
+          }
+
+    - name: Setup logrotate for SFTP process logs
+      copy:
+        dest: "/etc/logrotate.d/sftp_process"
+        content: |
+          /var/log/sftp_process.log {
+           daily
+           rotate 14
+           compress
+           delaycompress
+           missingok
+           notifempty
+           create 0640 root ec2-user
+           dateext
+           dateformat -%Y%m%d
+           postrotate
+            systemctl restart amazon-cloudwatch-agent > /dev/null 2>&1 || true
+           endscript
+          }
+
+    - name: Install Zabbix agent2 repository
+      rpm_key:
+        state: present
+        key: https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX
+      register: zabbix_key
+
+    - name: Install Zabbix agent2 repo package
+      yum:
+        name: https://repo.zabbix.com/zabbix/6.0/rhel/9/x86_64/zabbix-release-6.0-4.el9.noarch.rpm
+        state: present
+
+    - name: Clean yum cache
+      command: yum clean all
+
+    - name: Install Zabbix agent2
+      yum:
+        name:
+          - zabbix-agent2
+          - zabbix-agent2-plugin-*
+        state: present
+
+    - name: Enable and start Zabbix agent2
+      systemd:
+        name: zabbix-agent2
+        enabled: yes
+        state: started
+
+    - name: Generate Zabbix PSK
+      command: openssl rand -hex 32
+      register: zabbix_psk
+      changed_when: false
+
+    - name: Write PSK to file
+      copy:
+        dest: "{{ zabbix_psk_file }}"
+        content: "{{ zabbix_psk.stdout }}"
+        owner: zabbix
+        group: zabbix
+        mode: '0600'
+
+    - name: Configure Zabbix agent2
+      lineinfile:
+        path: /etc/zabbix/zabbix_agent2.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: '^TLSConnect=', line: 'TLSConnect=psk' }
+        - { regexp: '^TLSAccept=', line: 'TLSAccept=psk' }
+        - { regexp: '^TLSPSKIdentity=', line: 'TLSPSKIdentity={{ instance_id }}' }
+        - { regexp: '^TLSPSKFile=', line: 'TLSPSKFile={{ zabbix_psk_file }}' }
+        - { regexp: '^Server=', line: 'Server={{ zabbix_server }}' }
+        - { regexp: '^ServerActive=', line: 'ServerActive={{ zabbix_server }}' }
+        - { regexp: '^Hostname=', line: 'Hostname={{ instance_id }}' }
+      notify: restart zabbix-agent2
+
+    - name: Ensure monthly reboot cron exists
+      cron:
+        name: "Monthly reboot"
+        special_time: monthly
+        job: "/usr/sbin/reboot"
+        user: root
+
+  handlers:
+    - name: restart cloudwatch agent
+      systemd:
+        name: amazon-cloudwatch-agent
+        state: restarted
+
+    - name: reload systemd
+      command: systemctl daemon-reload
+
+    - name: restart zabbix-agent2
+      systemd:
+        name: zabbix-agent2
+        state: restarted
