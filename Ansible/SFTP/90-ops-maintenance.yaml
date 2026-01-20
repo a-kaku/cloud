@@ -19,11 +19,13 @@
     monthly_reboot_cron: "0 3 15-21 * * [ \"$(date '+\\%w')\" -eq 0 ] && /usr/sbin/reboot"
 
   tasks:
-    - name: Install CloudWatch Agent (RHEL/Rocky/Alma)
-      dnf:
+    - name: Install CloudWatch Agent on RHEL/Rocky/Alma
+      ansible.builtin.dnf:
         name: https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm
         state: present
-
+        disable_gpg_check: true
+        allow_downgrade: true
+        
     - name: Deploy CloudWatch Agent configuration
       copy:
         dest: "{{ cloudwatch_config_path }}"
