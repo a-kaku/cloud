@@ -12,7 +12,7 @@ def main():
     print("Connected to Zabbix API Version %s" % zapi.api_version())
 
     # 猶予期間を設定
-    GRACE_PERIOD_DAYS = 5
+    GRACE_PERIOD_DAYS = 7
     now_ts = int(datetime.now(tz=timezone.utc).timestamp())
     cutoff_ts = int((datetime.now(tz=timezone.utc) - timedelta(days=GRACE_PERIOD_DAYS)).timestamp())
 
@@ -22,9 +22,9 @@ def main():
     deleted_count = 0
     for m in maintenance_list:
         active_till = int(m["active_till"])
-        # 終了から2週間以上経過したものだけ削除
+        # 終了から猶予期間以上経過したものだけ削除
         if active_till < cutoff_ts:
-            #zapi.maintenance.delete(m["maintenanceid"])
+            zapi.maintenance.delete(m["maintenanceid"])
             print(f"Deleted maintenance: {m['name']} (ID: {m['maintenanceid']})")
             deleted_count += 1
     print("The script has completed.")
