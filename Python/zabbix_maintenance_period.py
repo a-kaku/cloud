@@ -8,8 +8,7 @@ Zabbix_Password = os.environ["ZABBIX_PASSWORD"]
 
 def main():
     zapi = ZabbixAPI(Zabbix_URL)
-    #zapi.login(Zabbix_User, Zabbix_Password)
-    zapi.session.headers.update({"Authorization": f"Bearer {ZABBIX_TOKEN}"})
+    zapi.login(Zabbix_User, Zabbix_Password)
     print("Connected to Zabbix API Version %s" % zapi.api_version())
 
     # 猶予期間を設定
