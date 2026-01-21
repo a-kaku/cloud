@@ -1,17 +1,19 @@
+import os
 from pyzabbix import ZabbixAPI
 from datetime import datetime, timezone, timedelta
 
 Zabbix_URL = "http://zabbix.h21.private/zabbix"
-Zabbix_User = "******@e-higashi.co.jp"
-Zabbix_Password = "*******"
+Zabbix_User = os.environ["ZABBIX_USER"]
+Zabbix_Password = os.environ["ZABBIX_PASSWORD"]
 
 def main():
     zapi = ZabbixAPI(Zabbix_URL)
-    zapi.login(Zabbix_User, Zabbix_Password)
+    #zapi.login(Zabbix_User, Zabbix_Password)
+    zapi.session.headers.update({"Authorization": f"Bearer {ZABBIX_TOKEN}"})
     print("Connected to Zabbix API Version %s" % zapi.api_version())
 
     # 猶予期間を設定
-    GRACE_PERIOD_DAYS = 14
+    GRACE_PERIOD_DAYS = 5
     now_ts = int(datetime.now(tz=timezone.utc).timestamp())
     cutoff_ts = int((datetime.now(tz=timezone.utc) - timedelta(days=GRACE_PERIOD_DAYS)).timestamp())
 
@@ -26,5 +28,6 @@ def main():
             #zapi.maintenance.delete(m["maintenanceid"])
             print(f"Deleted maintenance: {m['name']} (ID: {m['maintenanceid']})")
             deleted_count += 1
+    print("The script has completed.")
 
 main()
