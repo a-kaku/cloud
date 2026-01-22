@@ -57,7 +57,10 @@
           - oddjob-mkhomedir
           - adcli
           - samba-common-tools
+          - krb5-libs
+          - krb5-workstation
         state: present
+        update_cache: yes
       changed_when: false
 
     - name: Enable automatic home directory creation
