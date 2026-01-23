@@ -113,26 +113,43 @@ resource "aws_ssm_document" "sshd_doc" {
   content = <<DOC
 {
   "schemaVersion": "2.2",
-  "description": "Deploy sshd_config to EC2",
+  "description": "Deploy sshd_config to EC2 (safe)",
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "updateSSHD",
+      "name": "UpdateSSHDConfigSafely",
       "inputs": {
         "runCommand": [
-          "aws ssm get-parameter --name \"/config/ssh/sshd_config\" --with-decryption --query \"Parameter.Value\" --output text > /etc/ssh/sshd_config",
-          "if [ ! -s \"/etc/ssh/sshd_config\" ]; then echo \"Error: Failed to download sshd_config\"; exit 1; fi"
+          "set -euo pipefail",
+          "",
+          "TMP=$(mktemp /tmp/sshd_config.XXXXXX)",
+          "",
+          "aws ssm get-parameter \\",
+          "  --name \"/config/ssh/sshd_config\" \\",
+          "  --with-decryption \\",
+          "  --query \"Parameter.Value\" \\",
+          "  --output text > \"$TMP\"",
+          "",
+          "if [ ! -s \"$TMP\" ]; then",
+          "  echo \"ERROR: sshd_config parameter is empty or missing\" >&2",
+          "  rm -f \"$TMP\"",
+          "  exit 1",
+          "fi",
+          "",
+          "chmod 600 \"$TMP\"",
+          "chown root:root \"$TMP\"",
+          "",
+          "sshd -t -f \"$TMP\"",
+          "",
+          "mv \"$TMP\" /etc/ssh/sshd_config"
         ]
       }
     },
     {
       "action": "aws:runShellScript",
-      "name": "ValidateAndRestartSSHD",
+      "name": "RestartSSHD",
       "inputs": {
         "runCommand": [
-          "chmod 600 /etc/ssh/sshd_config",
-          "chown root:root /etc/ssh/sshd_config",
-          "sshd -t",
           "systemctl restart sshd"
         ]
       }
