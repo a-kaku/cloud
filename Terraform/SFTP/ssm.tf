@@ -109,7 +109,9 @@ DOC
 resource "aws_ssm_document" "sshd_doc" {
   name          = "UpdateSSHD"
   document_type = "Command"
+  document_format = "JSON"
 
+  force_update = true
   content = <<DOC
 {
   "schemaVersion": "2.2",
