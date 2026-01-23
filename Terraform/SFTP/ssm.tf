@@ -76,16 +76,27 @@ resource "aws_ssm_document" "sssd_doc" {
   content = <<DOC
 {
   "schemaVersion": "2.2",
-  "description": "Update sssd.conf from Parameter Store",
+  "description": "Deploy sssd.conf to EC2",
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "updateSSSD",
+      "name": "DownloadConfigFromSSM",
       "inputs": {
         "runCommand": [
-          "aws ssm get-parameter --name \"/h21/sftp/sssd.conf\" --query Parameter.Value --output text > /etc/sssd/sssd.conf",
+          "aws ssm get-parameter --name \"/config/sssd/sssd.conf\" --with-decryption --query \"Parameter.Value\" --output text > /etc/sssd/sssd.conf",
+          "if [ ! -s \"/etc/sssd/sssd.conf\" ]; then echo \"Error: Failed to download sssd.conf from SSM Parameter Store\"; exit 1; fi"
+        ]
+      }
+    },
+    {
+      "action": "aws:runShellScript",
+      "name": "SetPermissionsAndRestart",
+      "inputs": {
+        "runCommand": [
           "chmod 600 /etc/sssd/sssd.conf",
-          "systemctl restart sssd"
+          "chown root:root /etc/sssd/sssd.conf",
+          "systemctl restart sssd",
+          "systemctl --no-pager status sssd || exit 1"
         ]
       }
     }
@@ -93,24 +104,36 @@ resource "aws_ssm_document" "sssd_doc" {
 }
 DOC
 }
+
 
 resource "aws_ssm_document" "sshd_doc" {
-    name = "UpdateSSHD"
-    document_type = "Command"
+  name          = "UpdateSSHD"
+  document_type = "Command"
 
-    content = <<DOC
+  content = <<DOC
 {
   "schemaVersion": "2.2",
-  "description": "Update sshd_config from Parameter Store",
+  "description": "Deploy sshd_config to EC2",
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "updateSSHD",
+      "name": "DownloadSSHDConfig",
       "inputs": {
         "runCommand": [
-          "aws ssm get-parameter --name \"/h21/sftp/sssd.conf\" --query Parameter.Value --output text > /etc/sssd/sssd.conf",
-          "chmod 600 /etc/sssd/sssd.conf",
-          "systemctl restart sssd"
+          "aws ssm get-parameter --name \"/config/ssh/sshd_config\" --with-decryption --query \"Parameter.Value\" --output text > /etc/ssh/sshd_config",
+          "if [ ! -s \"/etc/ssh/sshd_config\" ]; then echo \"Error: Failed to download sshd_config\"; exit 1; fi"
+        ]
+      }
+    },
+    {
+      "action": "aws:runShellScript",
+      "name": "ValidateAndRestartSSHD",
+      "inputs": {
+        "runCommand": [
+          "chmod 600 /etc/ssh/sshd_config",
+          "chown root:root /etc/ssh/sshd_config",
+          "sshd -t",
+          "systemctl restart sshd"
         ]
       }
     }
@@ -118,6 +141,7 @@ resource "aws_ssm_document" "sshd_doc" {
 }
 DOC
 }
+
 
 resource "aws_ssm_association" "sssd_assoc" {
   name            = aws_ssm_document.sssd_doc.name
