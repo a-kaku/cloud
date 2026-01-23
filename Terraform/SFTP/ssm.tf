@@ -80,7 +80,7 @@ resource "aws_ssm_document" "sssd_doc" {
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "DownloadConfigFromSSM",
+      "name": "DupdateSSSD",
       "inputs": {
         "runCommand": [
           "aws ssm get-parameter --name \"/config/sssd/sssd.conf\" --with-decryption --query \"Parameter.Value\" --output text > /etc/sssd/sssd.conf",
@@ -117,7 +117,7 @@ resource "aws_ssm_document" "sshd_doc" {
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "DownloadSSHDConfig",
+      "name": "updateSSHD",
       "inputs": {
         "runCommand": [
           "aws ssm get-parameter --name \"/config/ssh/sshd_config\" --with-decryption --query \"Parameter.Value\" --output text > /etc/ssh/sshd_config",
