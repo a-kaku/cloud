@@ -1,5 +1,5 @@
 - name: Test for roles
-  hosts: all
+  hosts: webservers
   become: true
 
   roles: 
