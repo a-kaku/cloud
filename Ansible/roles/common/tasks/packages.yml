@@ -1,0 +1,8 @@
+- name: Install common packages
+  become: true
+  package:
+    name:
+      - vim
+      - curl
+      - wget
+      
