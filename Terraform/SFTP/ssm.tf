@@ -111,47 +111,57 @@ resource "aws_ssm_document" "sshd_doc" {
   document_type = "Command"
   document_format = "JSON"
 
-  force_update = true
   content = <<DOC
 {
   "schemaVersion": "2.2",
-  "description": "Deploy sshd_config to EC2 (safe)",
+  "description": "Deploy sshd_config to EC2 (safe, no truncate)",
   "mainSteps": [
     {
       "action": "aws:runShellScript",
-      "name": "UpdateSSHDConfigSafely",
+      "name": "UpdateSSHDConfig",
+      "onFailure": "Abort",
       "inputs": {
         "runCommand": [
           "set -euo pipefail",
           "",
-          "TMP=$(mktemp /tmp/sshd_config.XXXXXX)",
+          "PARAM_NAME=\\"/h21/sftp/sshd_conf\\"",
+          "TMP_FILE=$(mktemp /tmp/sshd_config.XXXXXX)",
           "",
-          "aws ssm get-parameter \\",
-          "  --name \"/config/ssh/sshd_config\" \\",
-          "  --with-decryption \\",
-          "  --query \"Parameter.Value\" \\",
-          "  --output text > \"$TMP\"",
+          "# Fetch parameter value safely (no redirection)",
+          "SSHD_VALUE=$(aws ssm get-parameter \\\\",
+          "  --name \\"$PARAM_NAME\\" \\\\",
+          "  --with-decryption \\\\",
+          "  --query 'Parameter.Value' \\\\",
+          "  --output text)",
           "",
-          "if [ ! -s \"$TMP\" ]; then",
-          "  echo \"ERROR: sshd_config parameter is empty or missing\" >&2",
-          "  rm -f \"$TMP\"",
+          "# Validate parameter content",
+          "if [ -z \\"$SSHD_VALUE\\" ] || [ \\"$SSHD_VALUE\\" = \\"None\\" ]; then",
+          "  echo \\"ERROR: SSM parameter $PARAM_NAME is empty or missing\\" >&2",
           "  exit 1",
           "fi",
           "",
-          "chmod 600 \"$TMP\"",
-          "chown root:root \"$TMP\"",
+          "# Write to temp file",
+          "echo \\"$SSHD_VALUE\\" > \\"$TMP_FILE\\"",
           "",
-          "sshd -t -f \"$TMP\"",
+          "# Secure permissions",
+          "chmod 600 \\"$TMP_FILE\\"",
+          "chown root:root \\"$TMP_FILE\\"",
           "",
-          "mv \"$TMP\" /etc/ssh/sshd_config"
+          "# Validate sshd config syntax before replacing",
+          "sshd -t -f \\"$TMP_FILE\\"",
+          "",
+          "# Atomic replace",
+          "mv \\"$TMP_FILE\\" /etc/ssh/sshd_config"
         ]
       }
     },
     {
       "action": "aws:runShellScript",
       "name": "RestartSSHD",
+      "onFailure": "Abort",
       "inputs": {
         "runCommand": [
+          "sshd -t",
           "systemctl restart sshd"
         ]
       }
@@ -160,7 +170,6 @@ resource "aws_ssm_document" "sshd_doc" {
 }
 DOC
 }
-
 
 resource "aws_ssm_association" "sssd_assoc" {
   name            = aws_ssm_document.sssd_doc.name
