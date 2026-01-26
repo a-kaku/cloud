@@ -3,5 +3,5 @@
   dnf:
     name:
       - postgresql
-  state: present
+    state: present
   
