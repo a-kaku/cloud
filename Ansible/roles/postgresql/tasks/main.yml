@@ -1,6 +1,7 @@
 - name: Install package
   become: true
   dnf:
-    - postgresql
+    name:
+      - postgresql
   state: present
   
