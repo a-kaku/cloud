@@ -2,7 +2,7 @@ import os
 from pyzabbix import ZabbixAPI
 from datetime import datetime, timezone, timedelta
 
-Zabbix_URL = "http://zabbix.h21.private/zabbix"
+Zabbix_URL = os.environ["ZABBIX_URL"]
 Zabbix_User = os.environ["ZABBIX_USER"]
 Zabbix_Password = os.environ["ZABBIX_PASSWORD"]
 
