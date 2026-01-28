@@ -1,0 +1,7 @@
+- name: Ensure sendA directory
+  hosts: sftp
+  become: yes
+
+  roles:
+    role:
+      - ensure_sendA_directory

@@ -1,0 +1,15 @@
+- name: Ensure chroot base directory onwership and permissions
+  file:
+    path: /srv/efs/sftp/users/sendA
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure writable uploads directory exists
+  file:
+    path: /srv/efs/sftp/users/sendA/uploads
+    state: directory
+    owner: sendA
+    group: sftp_send
+    mode: '0755'
