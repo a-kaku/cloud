@@ -9,3 +9,4 @@
 *.backup
 *.log
 __pycache__
+*.bkp
