@@ -9,3 +9,9 @@ variable "s3_bucket_expiration_days" {
   type = number
   default = 30
 }
+
+variable "CmBillingGroup" {
+  description = "The billing group to use for S3 bucket resource."
+  type = string
+  default = "h21local"
+}

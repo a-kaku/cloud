@@ -3,6 +3,7 @@ resource "aws_s3_bucket" "sftp_s3" {
 
         tags = {
             Name        = var.s3_bucket_name
+            CmBillingGroup = var.CmBillingGroup
         }          
 } 
 
