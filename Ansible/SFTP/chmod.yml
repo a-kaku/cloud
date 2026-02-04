@@ -1,0 +1,6 @@
+- name: Change folder permissions
+  hosts: sftp
+  become: yes
+  roles:
+    - chmod
+
