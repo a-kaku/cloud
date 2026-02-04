@@ -1,0 +1,6 @@
+- name: Deploy SFTP S3 watcher
+  hosts: sftp
+  become: yes
+  roles:
+    - role: sftp_s3_watcher
+    

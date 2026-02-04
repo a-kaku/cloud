@@ -1,0 +1,12 @@
+[Unit]
+Description=SFTP upload watcher to S3
+After=network.target remote-fs.target
+Requires=remote-fs.target
+
+[Service]
+ExecStart={{ sftp_watcher_script_path }}
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

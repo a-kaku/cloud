@@ -1,0 +1,23 @@
+#!/bin/bash
+WATCH_BASE="{{ sftp_watch_base }}"
+BUCKET="{{ sftp_s3_bucket }}"
+LOG="{{ sftp_watcher_log_file }}"
+
+inotifywait -m -r -e {{ sftp_inotify_events }} --format '%f %w' "$WATCH_BASE" | while read file path; do
+  {% for pattern in sftp_ignore_patterns %}
+  [[ "$file" == {{ pattern }} ]] && continue
+  {% endfor %}
+
+  src="${path}${file}"
+
+  [ -f "$src" ] || continue
+
+  rel_path="${src#${WATCH_BASE}/}"
+  s3_key="$rel_path"
+
+  if aws s3 cp "$src" "s3://${BUCKET}/${s3_key}"; then
+    echo "[$(date '+%F %T')] Uploaded ${src} to s3://${BUCKET}/${s3_key}" >> "$LOG"
+  else
+    echo "[$(date '+%F %T')] ERROR uploading ${src}" >> "$LOG"
+  fi
+done

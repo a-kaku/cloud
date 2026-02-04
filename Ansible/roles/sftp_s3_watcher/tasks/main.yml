@@ -1,0 +1,39 @@
+- name: Ensure this role only runs on watcher node
+  meta: end_play
+  when: inventory_hostname != sftp_watcher_node
+
+- name: Install required packages
+  dnf:
+    name:
+      - inotify-tools
+      - awscli
+    state: present
+
+- name: Ensure log file exists
+  file:
+    path: "{{ sftp_watcher_log_file }}"
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Deploy watcher script
+  template:
+    src: sftp_s3_upload_watcher.sh.j2
+    dest: "{{ sftp_watcher_script_path }}"
+    mode: '0755'
+
+- name: Deploy systemd service
+  template:
+    src: sftp_s3_upload_watcher.service.j2
+    dest: "/etc/systemd/system/{{ sftp_watcher_service_name }}"
+    mode: '0644'
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+
+- name: Enable and start watcher service
+  systemd:
+    name: "{{ sftp_watcher_service_name }}"
+    enabled: yes
+    state: started
