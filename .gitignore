@@ -4,6 +4,7 @@
 *.tfstate.*
 .terraform.lock.hcl
 *h21*
+h21/
 
 # Optional
 *.backup
