@@ -1,0 +1,17 @@
+- name: Remove old subdirectory
+  hosts: sftp
+  become: yes
+  vars:
+    base_dir: /srv/efs/sftp
+    legacy_dirs:
+      - uploads
+      - downloads
+      - processed
+      - users
+
+  tasks:
+    - name: Remove specified subdirectory
+      ansible.builtin.file:
+        path: "{{ base_dir }}/{{ item }}"
+        state: absent
+      loop: "{{ legacy_dirs}}"
