@@ -8,6 +8,9 @@
       - downloads
       - processed
       - users
+      - recvA
+      - sendA
+      - processing
 
   tasks:
     - name: Remove specified subdirectory
