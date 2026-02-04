@@ -1,9 +1,9 @@
-sftp_watch_base: "/sftp"
+sftp_watch_base: "/srv/efs/sftp"
 
 # S3 bucket
 sftp_s3_bucket: "h21.sftp.backup"
 
-# Watcher node name
+# Watcher executing node
 sftp_watcher_node: "sftp-01"
 
 sftp_watcher_script_path: "/usr/local/bin/sftp_s3_upload_watcher.sh"
