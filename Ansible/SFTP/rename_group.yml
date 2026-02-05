@@ -1,0 +1,5 @@
+- name: Rename group 
+  hosts: sftp
+  become: yes
+  roles:
+    - groupmod
