@@ -5,6 +5,7 @@
 .terraform.lock.hcl
 *h21*
 h21/
+*prod.tfvars
 
 # Optional
 *.backup
