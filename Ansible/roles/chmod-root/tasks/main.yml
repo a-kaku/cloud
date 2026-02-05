@@ -1,0 +1,24 @@
+- name: Ensure chroot directory exists and is root-owned
+  file:
+    path: "{{ sftp_chroot }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure SFTP subdirectory exists
+  file:
+    path: "{{ sftp_chroot }}/{{ sftp_subdir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure per-user directories inside SFTP subdir
+  file:
+    path: "{{ sftp_chroot }}/{{ sftp_subdir }}/{{ item }}"
+    state: directory
+    owner: "{{ item }}"
+    group: sftp_send
+    mode: '0755'
+  loop: "{{ sftp_users }}"

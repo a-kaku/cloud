@@ -1,0 +1,6 @@
+sftp_users:
+  - sendA
+
+sftp_chroot: /srv/efs
+
+sftp_subdir: sftp

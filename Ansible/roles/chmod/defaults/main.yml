@@ -1,6 +1,9 @@
-sftp_users:
+users:
   - sendA
 
-sftp_chroot: /srv/efs
+groups: sftp_send
+
+chmod: /srv/efs/sftp
 
 sftp_subdir: sftp
+
