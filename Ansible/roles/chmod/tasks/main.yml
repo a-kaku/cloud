@@ -2,7 +2,7 @@
   file:
     path: "{{ chmod_direc }}"
     state: directory
-    owner: "{{ user }}"
+    owner: "{{ users[0] }}"
     group: "{{ groups }}"
     mode: '0775'
 
