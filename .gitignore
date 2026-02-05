@@ -5,8 +5,7 @@
 .terraform.lock.hcl
 *h21*
 h21/
-*prod.tfvars
-Terraform/**/variable.tf
+
 
 # Optional
 *.backup
