@@ -9,8 +9,8 @@ variable "instances" {
 
 locals {
   subnets = {
-    sftp-01 = data.aws_subnet.h21local_d.id
-    sftp-02 = data.aws_subnet.h21local_a.id
+    sftp-01 = data.aws_subnet.subnet_d.id
+    sftp-02 = data.aws_subnet.subnet_a.id
   }
 }
 
@@ -41,6 +41,11 @@ variable "instance_ami" {
 variable "efs_subnet_ids" {
   description = "Subnets for EFS mount targets."
   type = list(string)
+}
+
+variable "key_name" {
+  type = string
+  default = "h21local"
 }
 
 /*
@@ -76,3 +81,28 @@ variable "egress_rule" {
 #   type = number
 #   default = 30
 # }
+
+variable "sg_id" {
+  type = string
+  default = "sg-0ff56c6020c4aff70"
+}
+
+variable "iam_name" {
+  type = string
+  default = "ec2_for_efs_s3_cloudwatch"
+}
+
+variable "vpc_id" {
+  type = string
+  default = "vpc-66901d03"
+}
+
+variable "subnet_d_id" {
+  type = string
+  default = "subnet-0ace5ac2c0711268e"
+}
+
+variable "subnet_a_id" {
+  type = string
+  default = "subnet-04ac6c682bf80de34"
+}
