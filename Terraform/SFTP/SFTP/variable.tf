@@ -12,12 +12,12 @@ variable "efs_subnet_ids" {
   type = list(string)
 }
 
-variable "sssd_conf" {
-  type = string
-  description = "Contents of the sssd.conf."
-}
+# variable "sssd_conf" {
+#   type = string
+#   description = "Contents of the sssd.conf."
+# }
 
-variable "sshd_conf" {
-  type = string
-  description = "Contents of the sshd_conf."
-}
+# variable "sshd_conf" {
+#   type = string
+#   description = "Contents of the sshd_conf."
+# }
