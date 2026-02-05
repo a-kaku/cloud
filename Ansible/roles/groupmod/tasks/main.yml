@@ -1,0 +1,10 @@
+- name: Check if old group exists
+  command: getent group "{{ group_old_name }}"
+  register: old_group_check
+  ignore_errors: yes
+
+- name: Rename group if it exists
+  when: old_group_check.rc == 0
+  failed_when: false
+  changed_when: false
+  command: groupmod -n "{{ group_new_name }}" "{{ group_old_name }}"
