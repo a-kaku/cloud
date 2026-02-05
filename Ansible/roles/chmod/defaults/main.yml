@@ -1,6 +1,6 @@
 user: root
 
-group: sftp_send
+group: sftp_users
 
 chmod_direc: /srv/efs/sftp/
 
