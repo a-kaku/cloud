@@ -4,5 +4,5 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ groups }}"
-    mode: '0755'
+    mode: '0775'
 
