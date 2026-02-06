@@ -1,4 +1,4 @@
-resource "aws_instance" "sftp" {
+resource "aws_instance" "sftp_instance" {
   for_each = var.instances
   ami           = var.instance_ami
   instance_type = "t3.small"

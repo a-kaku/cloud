@@ -1,5 +1,5 @@
-module "sftp" {
-  source = "../module"
+module "sftp_instance" {
+  source = "../module/ec2"
   efs_subnet_ids = var.efs_subnet_ids
 }
 
