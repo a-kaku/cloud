@@ -8,6 +8,7 @@ h21/
 *prod.tfvars
 Terraform/**/variable.tf
 Terraform/**/variables.tf
+Terraform/**/ssm
 
 # Optional
 *.backup
