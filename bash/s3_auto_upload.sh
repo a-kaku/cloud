@@ -2,7 +2,7 @@
 
 # ==== 設定部分 ====
 WATCH_DIR="/mnt/share"               # 監視するディレクトリ
-S3_BUCKET="s3://intra.h21.private/neo-system/" # アップロード先 S3
+S3_BUCKET="s3:// " # アップロード先 S3
 AWS_PROFILE="default"                        # AWS CLI プロファイル
 LOG_FILE="/var/log/s3_auto_upload.log"       # ログファイルの保存先
 

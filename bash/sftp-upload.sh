@@ -5,7 +5,7 @@ set -euo pipefail
 SRC_DIR="/mnt/share"
 LOG_FILE="/var/log/sftp_upload.log"
 SFTP_USER="ec2-user"
-SFTP_HOST="18.183.61.180"
+SFTP_HOST="    "  #ip address
 SFTP_DIR="/remote/path"
 TMP_FILE="/tmp/sftp_batch.txt"
 PSK="/home/ec2-user/MyServer001.pem"  
