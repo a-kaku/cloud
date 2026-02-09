@@ -2,4 +2,4 @@ service_name: 'zabbix-agent2'
 
 service_enabled: false
 
-service_state: stopped
+service_state: 'stopped'
