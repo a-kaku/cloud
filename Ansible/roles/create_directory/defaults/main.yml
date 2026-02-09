@@ -1,0 +1,9 @@
+root_dir: '/srv/efs/sftp/'
+sub_dir: 
+  - SISTMS
+  - SKYSIS
+  - SKYTMS
+  - SKYKIK
+owner_user: 'root'
+group_name: 'sftp_users'
+mode_permission: '0755'
