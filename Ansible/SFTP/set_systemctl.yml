@@ -1,0 +1,5 @@
+- name: Set systemctl
+  hosts: sftp
+  become: yes
+  roles:
+    - set_systemctl
