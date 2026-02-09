@@ -1,0 +1,5 @@
+- name: Create SFTP directories
+  hosts: sftp
+  become: yes
+  roles:
+    - create_directory
