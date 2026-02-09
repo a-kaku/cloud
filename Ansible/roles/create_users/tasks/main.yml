@@ -3,4 +3,5 @@
     name: "{{ item }}"
     group: "{{ users_group }}"
     state: present
+    shell: /sbin/nologin
   loop: "{{ users_name }}"
