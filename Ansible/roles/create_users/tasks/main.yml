@@ -2,6 +2,7 @@
   user:
     name: "{{ item }}"
     group: "{{ users_group }}"
+    uid: "{{ item.uid }}"
     state: present
     shell: /sbin/nologin
-  loop: "{{ users_name }}"
+  loop: "{{ users }}"
