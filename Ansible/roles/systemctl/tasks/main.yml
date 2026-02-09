@@ -1,0 +1,6 @@
+- name: Set systemctl 
+  systemd:
+    name: {{ service_name }}
+    enabled: {{ service_enabled }}
+    state: {{ service_state }}
+    
