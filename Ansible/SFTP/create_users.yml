@@ -1,0 +1,5 @@
+- name: Create sftp users
+  hosts: sftp
+  become: yes
+  roles:
+    - create_users
