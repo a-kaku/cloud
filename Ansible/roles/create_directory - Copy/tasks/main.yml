@@ -1,8 +1,0 @@
-- name: Create new directory
-  file:
-    path: "{{ root_dir }}/{{ item }}"
-    state: directory
-    owner: "{{ owner_user }}"
-    group: "{{ group_name }}"
-    mode: "{{ mode_permission }}"
-  loop: "{{ sub_dir }}"

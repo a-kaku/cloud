@@ -1,0 +1,5 @@
+- name: Create Subdirectories
+  hosts: sftp
+  become: yes
+  roles:
+    - create_subdirectory
