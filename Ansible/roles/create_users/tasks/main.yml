@@ -1,0 +1,6 @@
+- name: Create new users
+  user:
+    name: "{{ item }}"
+    group: "{{ group_name }}"
+    state: present
+  loop: "{{ users_name }}"
