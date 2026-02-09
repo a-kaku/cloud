@@ -1,7 +1,7 @@
 import boto3
 
 def stop_ec2(InstanceIds):
-    """"Stops an Instance."""
+    """Stops an Instance."""
 
     aws_region = 'ap-northeast-1'
     ec2 = boto3.client('ec2', region_name=aws_region)
