@@ -7,6 +7,6 @@ def read_csv(file_path):
         data = [row for row in csv_reader]
         print(f"Read {len(data)} rows from {file_path}")
 
-received_path = input("Enter the path to the CSV file: ")
-path = Path(received_path)
-read_csv(path)
+# #received_path = input("Enter the path to the CSV file: ")
+# path = Path(received_path)
+# read_csv(path)
