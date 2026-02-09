@@ -1,15 +1,15 @@
 - name: Create new directories under EFS
   file:
-    path: "{{ root_dir }}{{ parent }}/{{ item }}"
+    path: "{{ root_dir }}{{ parent }}/{{ sub }}"
     state: directory
     owner: "{{ owner_user }}"
     group: "{{ group_name }}"
     mode: "{{ mode_permission }}"
-  loop: "{{ sub_folders[parent] }}"
+  loop: "{{ sub_folders | dict2items | subelements('value') }}"
   loop_control:
-    loop_var: item
+    loop_var: parent_sub
   vars:
-    parent: "{{ item_parent }}"
-  with_items: "{{ sub_dir }}"
-  loop_control:
-    loop_var: item_parent
+    parent: "{{ parent_sub.0 }}"
+    sub: "{{ parent_sub.1 }}"
+
+
