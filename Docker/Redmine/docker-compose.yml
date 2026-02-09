@@ -4,10 +4,10 @@ services:
     container_name: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: 21higashi
+      MARIADB_ROOT_PASSWORD: redminetest
       MARIADB_DATABASE: redmine3
       MARIADB_USER: redmine
-      MARIADB_PASSWORD: redminepass
+      MARIADB_PASSWORD: redminetest
     ports:
       - "3306:3306"
     volumes:
