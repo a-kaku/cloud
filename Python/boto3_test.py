@@ -20,4 +20,4 @@ def start_ec2(InstanceIds):
 
 instance_ids = ['i-0da38292f63136e56']
 # stop_ec2(instance_ids)
-start_ec2(instance_ids)
+# start_ec2(instance_ids)
