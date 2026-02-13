@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /usr/local/bin/efs_s3_uploader.py
+ExecStart=/usr/bin/python3 /usr/local/bin/efs_s3_lock_uploader.py
 Restart=always
 User=ec2-user
 WorkingDirectory=/usr/local/bin
