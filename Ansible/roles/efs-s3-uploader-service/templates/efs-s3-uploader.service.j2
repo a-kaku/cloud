@@ -1,0 +1,14 @@
+[Unit]
+Description=EFS → S3 Uploader
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/efs_s3_uploader.py
+Restart=always
+User=ec2-user
+WorkingDirectory=/usr/local/bin
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

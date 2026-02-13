@@ -1,0 +1,5 @@
+- name: Create systemd service file
+  hosts: sftp
+  become: yes
+  roles:
+    - efs-s3-uploader-service
