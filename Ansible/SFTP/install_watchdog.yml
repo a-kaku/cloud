@@ -1,0 +1,5 @@
+- name: Install watchdog
+  hosts: sftp
+  become: yes
+  roles:
+    - watchdog
