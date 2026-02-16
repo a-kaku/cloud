@@ -1,0 +1,6 @@
+- name: Install docker
+  hosts: vagrants
+  become: true
+
+  roles:
+    - docker

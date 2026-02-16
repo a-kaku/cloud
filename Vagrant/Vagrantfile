@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+    config.vm.define "staging" do |staging|
+        staging.vm.box = "almalinux/9"
+        staging.ssh.password="vagrant"
+        staging.vm.network "public_network", use_dhcp_assigned_default_route: true
+        staging.ssh.forward_agent = true
+        staging.vm.provision "shell", inline: "ip -4 -o a"
+    end
+    config.vm.define "prod" do |prod|
+        prod.vm.box = "almalinux/9"
+        prod.ssh.password="vagrant"
+        prod.vm.network "public_network", use_dhcp_assigned_default_route: true
+        prod.ssh.forward_agent = true
+        prod.vm.provision "shell", inline: "ip -4 -o a"
+    end
+    config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    end
+end
