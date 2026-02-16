@@ -1,0 +1,6 @@
+- name: Create user Groups
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    "{{ group_name }}"
