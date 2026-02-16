@@ -1,5 +1,13 @@
 - name: Create groups
   hosts: sftp
   become: yes
+  
+  tasks:
+    - name: Delete existing group
+      group:
+        name: group_name
+        state: absent
+      
   roles:
     - create_group
+
