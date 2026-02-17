@@ -1,0 +1,6 @@
+- name: Delete Users
+  hosts: sftp
+  become: true
+
+  roles:
+    - delete_users
