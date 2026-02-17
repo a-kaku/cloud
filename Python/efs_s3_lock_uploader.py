@@ -13,10 +13,9 @@ from watchdog.events import FileSystemEventHandler
 # ==========================
 EFS_PATH = "/srv/efs/sftp"       # 監視対象の EFS ディレクトリ
 S3_BUCKET = "h21.sftp.backup"    # アップロード先 S3 バケット名
-DDB_TABLE = "efs_s3_lock"        # ファイルロック用 DynamoDB テーブル名
+DDB_TABLE = "efs-s3-lock-table"        # ファイルロック用 DynamoDB テーブル名
 LOCK_TTL_SECONDS = 300           # ロック有効期限（秒）
 AWS_REGION = "ap-northeast-1"    # AWS リージョン
-TMP_LOG = "/var/log/efs_s3_uploader.log"
 
 # ==========================
 # AWS クライアント初期化
@@ -30,11 +29,7 @@ s3 = boto3.client("s3", region_name=AWS_REGION)
 # ==========================
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s",
-    handlers=[
-        logging.FileHandler(TMP_LOG),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s %(levelname)s %(message)s"
 )
 
 # ==========================
@@ -103,6 +98,27 @@ class EFSHandler(FileSystemEventHandler):
 # メイン処理
 # ==========================
 def main():
+    if not os.path.exists(EFS_PATH):
+        logging.error(f"EFS パスが存在しません: {EFS_PATH}")
+        return
+
     observer = Observer()
     event_handler = EFSHandler()
+
     observer.schedule(event_handler, path=EFS_PATH, recursive=True)
+    observer.start()
+
+    logging.info(f"{EFS_PATH} の監視を開始しました")
+
+    try:
+        while True:
+            time.sleep(5)
+    except KeyboardInterrupt:
+        logging.info("終了シグナル受信")
+        observer.stop()
+
+    observer.join()
+
+
+if __name__ == "__main__":
+    main()
