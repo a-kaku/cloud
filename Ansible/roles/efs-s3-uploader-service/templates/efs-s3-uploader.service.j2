@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 ExecStart=/usr/bin/python3 /usr/local/bin/efs_s3_lock_uploader.py
 Restart=always
-User=ec2-user
+User=root
 WorkingDirectory=/usr/local/bin
 Environment=PYTHONUNBUFFERED=1
 
