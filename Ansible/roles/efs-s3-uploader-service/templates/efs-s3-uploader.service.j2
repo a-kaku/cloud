@@ -1,6 +1,7 @@
 [Unit]
 Description=EFS → S3 Uploader
 After=network.target
+Requires=remote-fs.target
 
 [Service]
 Type=simple
