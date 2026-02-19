@@ -18,5 +18,8 @@ resource "aws_security_group_rule" "ingress" {
     to_port = each.value.to_port
     protocol = each.value.protocol
     security_group_id = aws_security_group.sg.id
-    
+    cidr_blocks = lookup(each.value, "cidr_blocks", null)
+    source_security_group_id = lookup(each.value, "source_sg", null)
+    description = lookup(each.value, "description", null)
+
 }
