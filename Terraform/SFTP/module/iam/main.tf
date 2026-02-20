@@ -37,4 +37,4 @@ resource "aws_iam_role_policy_attachment" "attach" {
 
   role       = aws_iam_role.role.name
   policy_arn = each.value
-}g
+}
