@@ -20,21 +20,9 @@ resource "aws_iam_role" "role" {
     }
 }
 
-resource "aws_iam_policy" "custom" {
-  for_each = { for k, v in var.iam_policies : k => v if can(v.policy) }
-
-  name   = each.key
-  policy = each.value.policy
-}
-
 resource "aws_iam_role_policy_attachment" "attach" {
-  for_each = {
-    for k, v in var.iam_policies :
-    k => (
-      v.type == "custom" ? aws_iam_policy.custom[k].arn : v.policy
-    )
-  }
+  for_each = var.iam_policies
 
   role       = aws_iam_role.role.name
-  policy_arn = each.value
+  policy_arn = each.value.policy
 }
