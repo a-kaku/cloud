@@ -4,7 +4,7 @@ resource "aws_instance" "sftp_instance" {
   instance_type = "t3.small"
   subnet_id     = local.subnets[each.key]
   key_name = var.key_name
-  iam_instance_profile = data.aws_iam_instance_profile.iam_profile.name
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
   root_block_device {
     volume_size = 20
