@@ -23,7 +23,7 @@ resource "aws_iam_role" "role" {
 resource "aws_iam_policy" "custom" {
   for_each = { for k, v in var.iam_policies : k => v if can(v.policy) }
 
-  name   = each.value.key
+  name   = each.key
   policy = each.value.policy
 }
 
