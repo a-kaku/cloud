@@ -45,6 +45,11 @@ data "aws_security_group" "sg" {
   id = var.sg_id
 }
 
-data "aws_iam_instance_profile" "iam_profile" {
+data "aws_iam_role" "iam_role" {
   name = var.iam_name
+}
+
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = var.instance_profile_name
+  role = data.aws_iam_role.iam_role.name
 }
