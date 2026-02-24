@@ -2,7 +2,7 @@
   file:
     path: "{{ root_dir }}/{{ item.1 }}"
     state: directory
-    owner: "{{ owner_user }}"
+    owner: "{{ item.1 }}"
     group: "{{ item.0.key }}"
     mode: "{{ mode_permission }}"
   loop: "{{ sub_dir | dict2items | subelements('value') }}"
