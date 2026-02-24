@@ -1,6 +1,6 @@
 root_dir: /srv/efs/.sshkeys
 
-subdir:
+sub_dir:
   SISTMS:
     -SISTMS_SIS
     -SISTMS_TMS
@@ -17,3 +17,5 @@ subdir:
 group_name: root
 
 mode_permission: '700'
+
+file_permissions: '600'
