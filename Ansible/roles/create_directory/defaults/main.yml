@@ -1,0 +1,19 @@
+root_dir: /srv/efs/.sshkeys
+
+subdir:
+  SISTMS:
+    -SISTMS_SIS
+    -SISTMS_TMS
+  SKYSIS:
+    -SKYSIS_SIS
+    -SKYSIS_SKY
+  SKYTMS:
+    -SKYTMS_TMS
+    -SKYTMS_SKY
+  SKYKIK:
+    -SKYKIK_SKY
+    -SKYKIK_KIK
+
+group_name: root
+
+mode_permission: '700'

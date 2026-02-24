@@ -1,8 +1,15 @@
 - name: Create new directory
   file:
-    path: "{{ root_dir }}/{{ item }}"
+    path: "{{ root_dir }}/{{ item.1 }}"
     state: directory
     owner: "{{ owner_user }}"
-    group: "{{ group_name }}"
+    group: "{{ item.0.key }}"
     mode: "{{ mode_permission }}"
-  loop: "{{ sub_dir }}"
+  loop: "{{ sub_dir | dict2items | subelements('value') }}"
+
+- name: Create authorized_keys file
+  file:
+    path: "{{ root_dir }}/{{ item.1 }}/authorized_keys"
+    state: touch
+    mode: "{{ file_permissions }}"
+  loop: "{{ sub_dir | dict2items | subelements('value') }}"
