@@ -2,17 +2,17 @@ root_dir: /srv/efs/.sshkeys
 
 sub_dir:
   SISTMS:
-    - SISTMS_SIS
-    - SISTMS_TMS
+    - sistms_sis
+    - sistms_tms
   SKYSIS:
-    - SKYSIS_SIS
-    - SKYSIS_SKY
+    - skysis_sis
+    - skysis_sky
   SKYTMS:
-    - SKYTMS_TMS
-    - SKYTMS_SKY
+    - skytms_tms
+    - skytms_sky
   SKYKIK:
-    - SKYKIK_SKY
-    - SKYKIK_KIK
+    - skykik_sky
+    - skykik_kik
 
 group_name: root
 

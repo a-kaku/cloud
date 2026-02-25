@@ -2,7 +2,7 @@
   file:
     path: "{{ root_dir }}/{{ item.1 }}"
     state: directory
-    # owner: "{{ item.1 }}"
+    owner: "{{ item.1 }}"
     group: "{{ item.0.key }}"
     mode: "{{ mode_permission }}"
   loop: "{{ sub_dir | dict2items | subelements('value') }}"
@@ -11,5 +11,7 @@
   file:
     path: "{{ root_dir }}/{{ item.1 }}/authorized_keys"
     state: touch
+    owner: "{{ item.1 }}"
+    group: "{{ item.0.key }}"
     mode: "{{ file_permissions }}"
   loop: "{{ sub_dir | dict2items | subelements('value') }}"
