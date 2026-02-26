@@ -1,3 +1,5 @@
 - name: Create sftp.conf file
+  hosts: sftp
+  become: yes
   roles:
     - rsyslog_sftp
