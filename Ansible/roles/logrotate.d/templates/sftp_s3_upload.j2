@@ -1,0 +1,11 @@
+var/log/sftp_s3_upload.log {
+ daily
+ rotate 14
+ compress
+ delaycompress
+ missingok
+ notifempty
+ create 0640 root ec2-user
+ dateext
+ dateformat -%Y%m%d
+}
