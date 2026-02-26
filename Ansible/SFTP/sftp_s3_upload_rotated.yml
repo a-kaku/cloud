@@ -1,0 +1,5 @@
+- name: Rotate sftp_s3_upload logs
+  hosts: sftp
+  become: yes
+  roles:
+    - logrotate.d
