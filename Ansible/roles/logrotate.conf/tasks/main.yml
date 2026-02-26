@@ -1,0 +1,7 @@
+- name: Configure logrotate.conf file
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.conf
+    owner: root
+    group: root
+  notify: restart logrotate

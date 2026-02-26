@@ -1,0 +1,5 @@
+- name: Configure logrotate
+  hosts: sftp
+  become: true
+  roles:
+    - logrotate.conf
