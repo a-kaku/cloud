@@ -1,6 +1,6 @@
 - name: Create logrotate.d configuration
   template:
-    src: logrotate_sftp_s3_upload.j2
+    src: sftp_s3_upload.j2
     dest: /etc/logrotate.d/sftp_s3_upload
     owner: root
     group: root
