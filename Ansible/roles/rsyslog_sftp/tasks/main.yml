@@ -1,0 +1,13 @@
+- name: Create sftp.conf file
+  template:
+    src: sftp_conf.j2
+    dest: /etc/rsyslog.d/sftp.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart rsyslog
+
+- name: Ensure rsyslog is enabled
+  systemd:
+    name: rsyslog
+    enabled: yes
