@@ -1,0 +1,5 @@
+- name: Configure CloudWatch agent for SFTP logs
+  hosts: sftp
+  become: yes
+  roles:
+    - cloudwatch_agent

@@ -1,0 +1,11 @@
+- name: Ensure cloudwatch agent is installed
+  package:
+    name: amazon-cloudwatch-agent
+    state: present
+
+- name: Cloudwatch-agent.json configuration
+  template:
+    src: cloudwatch-agent.json.j2
+    dest: cd /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+    owner: root
+    group: root
