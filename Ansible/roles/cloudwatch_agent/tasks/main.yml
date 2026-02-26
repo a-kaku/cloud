@@ -6,6 +6,6 @@
 - name: Cloudwatch-agent.json configuration
   template:
     src: cloudwatch-agent.json.j2
-    dest: cd /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+    dest: /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
     owner: root
     group: root
