@@ -1,7 +1,23 @@
-- name: Create logrotate.d configuration
+- name: Create sftp_s3_upload logrotate.d configuration
   template:
     src: sftp_s3_upload.j2
     dest: /etc/logrotate.d/sftp_s3_upload
+    owner: root
+    group: root
+    mode: '0644'
+  
+- name: Create sftp logrotate.d configuration
+  template:
+    src: sftp.log.j2
+    dest: /etc/logrotate.d/sftp
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create secure logrotate.d configuration
+  template:
+    src: secure.j2
+    dest: /etc/logrotate.d/secure
     owner: root
     group: root
     mode: '0644'

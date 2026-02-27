@@ -1,0 +1,22 @@
+/var/log/secure {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 root ec2-user
+    dateext
+    dateformat -%Y%m%d
+    sharedscripts
+
+    postrotate
+        systemctl restart amazon-cloudwatch-agent > /dev/null 2>&1 || true
+    endscript
+
+    lastaction
+        HOSTNAME=`hostname`
+        /usr/bin/aws s3 sync /var/log/ s3://h21.systemlog/sftp/${HOSTNAME}/ \
+        --exclude "*" --include "secure-*.gz" 2> /dev/null || true
+    endscript
+}

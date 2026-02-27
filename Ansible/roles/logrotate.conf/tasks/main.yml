@@ -4,4 +4,3 @@
     dest: /etc/logrotate.conf
     owner: root
     group: root
-  notify: restart logrotate
