@@ -26,6 +26,6 @@ resource "aws_iam_role_policy_attachment" "new_role_attachment" {
 }
 
 resource "aws_iam_instance_profile" "new_instance_profile" {
-  name = "new_instance_profile"
+  name = var.instance_profile_name
   role = aws_iam_role.new_role.name
 }
