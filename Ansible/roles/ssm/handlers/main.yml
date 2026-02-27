@@ -1,0 +1,5 @@
+- name: Start ssm
+  systemd:
+    name: amazon-ssm-agent
+    state: started
+    enabled: yes
