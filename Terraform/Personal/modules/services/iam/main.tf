@@ -1,5 +1,5 @@
 resource "aws_iam_role" "new_role" {
-  name = "new_role"
+  name = var.instance_profile_name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
