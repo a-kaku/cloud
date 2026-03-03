@@ -5,11 +5,11 @@ resource "aws_lb" "new_nlb" {
   security_groups    = [data.aws_security_group.nlb_sg.id]
 
   dynamic "subnet_mapping" {
-    for_each = var.eip_allocation_ids.value
+    for_each = var.nlb_config
 
     content {
-    subnet_id      = subnet_mapping.key
-    allocation_id = subnet_mapping.value
+      subnet_id     = data.aws_subnet.this[subnet_mapping.key].id
+      allocation_id = subnet_mapping.value.allocation_id
     }
   }
 
@@ -19,17 +19,12 @@ resource "aws_lb" "new_nlb" {
   }
 }
 
-data "aws_subnets" "subnet_a" {
-  filter {
-    name   = "tag:Name"
-    values = [var.subnet_a_name]
-  }
-}
+data "aws_subnet" "this" {
+  for_each = var.nlb_config
 
-data "aws_subnets" "subnet_d" {
   filter {
     name   = "tag:Name"
-    values = [var.subnet_d_name]
+    values = [each.value.subnet_name]
   }
 }
 
