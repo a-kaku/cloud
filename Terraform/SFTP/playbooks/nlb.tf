@@ -1,5 +1,5 @@
 resource "aws_lb" "hgs_nlb" {
-  name               = "sftp-nlb"
+  name               = "sftp-nlb-test"
   internal           = false
   load_balancer_type = "network"
 subnets = concat(
@@ -28,6 +28,7 @@ data "aws_subnets" "h21pulic_d" {
 
 resource "aws_lb_listener" "hgs_nlb_listener" {
   load_balancer_arn = aws_lb.hgs_nlb.arn
+
   port              = 22
   protocol          = "TCP"
 
