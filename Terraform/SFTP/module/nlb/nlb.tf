@@ -5,7 +5,7 @@ resource "aws_lb" "new_nlb" {
   security_groups    = [data.aws_security_group.nlb_sg.id]
 
   dynamic "subnet_mapping" {
-    for_each = var.eip_allocation_ids
+    for_each = var.eip_allocation_ids.value
 
     content {
     subnet_id      = subnet_mapping.key
