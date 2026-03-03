@@ -2,7 +2,7 @@ resource "aws_lb" "new_nlb" {
   name               = var.nlb_name
   internal           = false
   load_balancer_type = "network"
-  security_groups    = [data.aws_security_group.nlb_sg]
+  security_groups    = [data.aws_security_group.nlb_sg.id]
 
   dynamic "subnet_mapping" {
     for_each = var.eip_allocation_ids
