@@ -2,6 +2,7 @@ resource "aws_lb" "new_nlb" {
   name               = var.nlb_name
   internal           = false
   load_balancer_type = "network"
+  security_groups    = [data.aws_security_group.nlb_sg]
 
   dynamic "subnet_mapping" {
     for_each = var.eip_allocation_ids
@@ -61,4 +62,11 @@ resource "aws_lb_target_group_attachment" "sftp_attachment" {
   target_group_arn = aws_lb_target_group.nlb_tg.arn
   target_id        = each.value
   port             = 22
+}
+
+data "aws_security_group" "nlb_sg" {
+  filter {
+    name   = "tag:Name"
+    values = [var.nlb_sg_name]
+  }
 }
