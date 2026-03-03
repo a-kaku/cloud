@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "hgs_nlb_tg" {
 }
 
 resource "aws_lb_target_group_attachment" "sftp_attachment" {
-  for_each = module.sftp.instance_ids
+  for_each = module.sftp_instance.instance_ids
   target_group_arn = aws_lb_target_group.hgs_nlb_tg.arn
   target_id        = each.value
   port             = 22
