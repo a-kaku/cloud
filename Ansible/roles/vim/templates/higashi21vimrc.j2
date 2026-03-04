@@ -1,0 +1,18 @@
+# echo "
+" ## ヒガシ21の設定
+" 文字コードの自動判定
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,euc-jp,cp932
+
+" 改行コードの自動認識
+set fileformats=unix,dos,mac
+" □とか○の文字があってもカーソル位置がずれないようにする
+if exists('&ambiwidth')
+set ambiwidth=double
+endif
+
+" 行番号を自動追加
+set number
+" タブ文字数の設定
+set tabstop=2"
