@@ -11,8 +11,8 @@ from watchdog.events import FileSystemEventHandler
 # ==========================
 # 設定項目
 # ==========================
-EFS_PATH = "/srv/efs/sftp"       # 監視対象の EFS ディレクトリ
-S3_BUCKET = "h21.sftp.backup"    # アップロード先 S3 バケット名
+EFS_PATH = "xxxxxx"       # 監視対象の EFS ディレクトリ
+S3_BUCKET = "xxxxx"    # アップロード先 S3 バケット名
 DDB_TABLE = "efs-s3-lock-table"        # ファイルロック用 DynamoDB テーブル名
 LOCK_TTL_SECONDS = 300           # ロック有効期限（秒）
 AWS_REGION = "ap-northeast-1"    # AWS リージョン
