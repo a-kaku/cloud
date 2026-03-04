@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="version" content="20251001">
+    <meta charset="UTF-8">
+    <!-- no browser cache -->
+    <meta http-equiv="cache-control" content="no-cache, no-store">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>無事故記録</title>
+    <style>
+        .group-challenge {
+            font-size: 19px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+            padding: 8px 0;
+            border-bottom: 2px solid #3498db;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+        .safety-widget {
+            font-family: 'Arial', sans-serif;
+            width: 85%;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f6f6f6 0%, #ffffff 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 20px auto;
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            text-align: center;
+        }
+        .info-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .days-label {
+            font-size: 24px;
+            color: #333;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            margin-top: 10px; 
+            text-align: center;
+        }
+        .accident-count {
+            font-size: 18px;
+            margin: 5px 0 0 0;
+            margin: 10px 0; 
+            text-align: center;
+        }
+        .annotation {
+            font-size: 12px;
+            color: #333;
+            margin-top: 0px;
+            text-align: center;
+            width: 100%;
+            padding-left: 10px;
+            word-break: keep-all;
+            overflow-wrap: break-word;           
+        } 
+        .accident-office {
+            font-size: 10px;
+            color: #e74c3c;
+            margin-top: 5px;
+            text-align: center;
+            width: 100%;
+            padding-left: 10px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            font-weight: 500;           
+        }            
+        .days-section {
+            flex: 1;
+            position: relative;
+            text-align: center;
+        }
+        .days-container {
+            display: inline-flex;
+            align-items: baseline;
+            text-align: center;
+            padding: 15px 25px;
+            position: relative;
+        }
+        .days-counter {
+            font-size: 86px;
+            color: #333;
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 12px;           
+            font-weight: 700;
+            line-height: 1;
+        }
+        .days-unit {
+            font-size: 24px;
+            color: #333;
+            font-weight: 700;
+            margin-left: 5px;
+        }
+        .start-date {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .highlight {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .safety-widget {
+            font-family: 'Arial', sans-serif;
+            width: 85%;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f6f6f6 0%, #ffffff 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin: 20px auto;
+        }
+        .accident-announcement{
+            font-size: 10px;
+            text-align: left;
+            margin-top: 10px;
+        }
+        .previous-accident-day{
+            font-size: 10px;
+            text-align: left;
+            display: flex;
+        }
+        .damage-container {
+            justify-content: space-between;
+        }        
+        .accident-content{
+            display:inline-block;
+            margin-left: 10%;
+            width:auto;
+            margin-top: 5px;
+            color: #e74c3c;
+        }
+        .management-accident {
+            font-size: 10px;
+            margin-top: 5px;
+            text-align: left;
+            width: 100%;
+
+        }
+        .alert-message {
+            font-size: 10px;
+            text-align: left;
+            width: 100%;
+            color: #e74c3c;
+            font-weight: bold;    
+        }        
+        .acci-count {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .damage-level{
+            display: inline-block;
+            margin-top: 0;
+            align-items: flex-start;
+        }
+        .damage-context {
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="safety-widget">
+        <div class="group-challenge">
+            xxxxxxxxxxxx全員で無事故に挑戦！<wbr>運輸安全マネジメント事故の削減に努めましょう！<wbr>
+        </div>
+        <div class="main-container">
+            <div class="info-section">
+               
+                <div class="accident-count">
+                    今年度事故発生件数: 
+                    <span class="highlight" id="accidentCount">0</span> 件
+                </div>
+                <div class="annotation">
+                    <wbr><span class="acci-count"></span><wbr>
+                </div>
+                <!--<div class="accident-office" id="accidentOffice">
+                    事故日数は<span id="branchOffice">〇〇〇事業所</span>の<wbr><span id="accidentName">△△△△事故</span>よりリセットされました。
+                </div>
+                -->
+               <div class="accident-announcement">
+                    <div class="previous-accident-day">前回起算日以降発生事故:<br></div>
+                        <div class="damage-container">
+                            <div class="damage-level"><span class="damage-context"> </span></div>
+                            <div class="accident-content">
+                                <span id=accidentFirst>0</span><br>
+                                <span id=accidentSecond>0</span><br>
+                                <span id=accidentThird>0</span><br>
+                                <span id=accidentFourth>0</span>                              
+                            </div>
+                        </div>
+                        <div class="management-accident">上記事故についてはx月x日にまとめて報告がありましたので<wbr>今回更新しました。</div>
+                        <div class="management-accident"></div>
+　　　　　　　　　　　 <div class="alert-message">損害額が未確定の事故も含めＡＡ（事故率5％以内）も危い緊急事態となっています。<br></div>
+                    <div>                                    年度末に向け、事故撲滅に向けさらなる緊張感を持って事故を起こさぬよう努めてください。</div>
+
+
+
+                </div>                
+            </div>
+            
+            <div class="days-section">
+                 <div class="days-label">無事故記録</div>
+                <div class="days-container">
+                    <div class="days-counter">
+                        <span id="safeDays">0</span>
+                    </div>
+                    <div class="days-unit">日</div>
+                </div>
+                <div class="start-date">
+                    起算日: <span id="startDate">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const safetyData = {
+
+
+
+            //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓①②③④⑤を編集してください。↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+
+
+
+            //①起算日："1900-01-01"の形でご入力ください。
+            lastIncidentDate: "2026-1-1",
+            //②今年度事故数
+            accidentsThisYear: 10,
+            //③事故1件目
+            accidentFirst: "1900/3/1　難波駅　xxxxxxxx事故",　　
+            //④事故2件目
+            accidentSecond: "2000/6/1　難波駅　xxxxxxxx事故",
+            //⑤事故3件目
+            accidentThird: "2025/12/1　難波駅　xxxxxxxx事故",
+            //⑥事故4件目
+            accidentFourth: "2030/1/1　難波駅　xxxxxxxx事故"
+
+
+
+
+            //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+
+        };
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return new Date(dateString).toLocaleDateString('ja-JP', options).replace(/\//g, '/');
+        }
+
+        function calculateSafeDays(lastIncidentDate) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            const lastDate = new Date(lastIncidentDate);
+            const today = new Date();
+            
+            lastDate.setHours(0,0,0,0);
+            today.setHours(0,0,0,0);
+            
+            return Math.floor((today - lastDate) / oneDay);
+        }
+
+        function displayData() {
+            const safeDays = calculateSafeDays(safetyData.lastIncidentDate);
+            document.getElementById('safeDays').textContent = safeDays;
+            document.getElementById('accidentCount').textContent = safetyData.accidentsThisYear;
+            document.getElementById('startDate').textContent = formatDate(safetyData.lastIncidentDate);
+            document.getElementById('accidentFirst').textContent = safetyData.accidentFirst;
+            document.getElementById('accidentSecond').textContent = safetyData.accidentSecond;
+            document.getElementById('accidentThird').textContent = safetyData.accidentThird;
+            document.getElementById('accidentFourth').textContent = safetyData.accidentFourth;
+        }
+
+        window.onload = displayData;
+    </script>
+</body>
+</html>
