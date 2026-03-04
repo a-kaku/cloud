@@ -12,9 +12,4 @@ var/log/sftp_s3_upload.log {
         systemctl restart amazon-cloudwatch-agent > /dev/null 2>&1 || true
     endscript
 
-    lastaction
-        HOSTNAME=`hostname`
-        /usr/bin/aws s3 sync /var/log/ s3://h21.systemlog/sftp/${HOSTNAME}/ \
-        --exclude "*" --include "sftp_s3_upload.log*" 2> /dev/null || true
-    endscript
 }
