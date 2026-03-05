@@ -1,0 +1,6 @@
+- name: Configure cron file
+  hosts: sftp
+  become: yes
+
+  roles:
+    - cron
