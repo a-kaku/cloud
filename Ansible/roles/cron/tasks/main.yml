@@ -1,0 +1,8 @@
+- name: Configure reboot cron
+  cron:
+    name: "Reboot on third Wednesday at 05:00"
+    minute: "0"
+    hour: "5"
+    day: "15-21"
+    job: '[ "$(date "+\%w")" -eq 3 ] && /usr/sbin/reboot'
+    user: root
