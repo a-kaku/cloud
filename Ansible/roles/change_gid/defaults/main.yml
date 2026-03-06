@@ -1,3 +1,9 @@
-target_group: SISTMS
-
-new_gid: 2001
+target_group: 
+  - name: SISTMS
+    gid: 2001
+  - name: SKYSIS
+    gid: 2002
+  - name: SKYTMS
+    gid: 2003
+  - name: SKYKIK
+    gid: 2004

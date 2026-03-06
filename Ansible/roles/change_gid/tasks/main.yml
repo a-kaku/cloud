@@ -1,6 +1,7 @@
 - name: Change group's gid
   
   group:
-    name: "{{ target_group }}"
-    gid: "{{ new_gid }}"
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
     state: present
+  loop: "{{ target_group }}"
