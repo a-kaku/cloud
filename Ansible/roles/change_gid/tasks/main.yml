@@ -1,0 +1,6 @@
+- name: Change group's gid
+  
+  group:
+    name: "{{ target_group }}"
+    gid: "{{ new_gid }}"
+    state: present

@@ -5,4 +5,5 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: '0775'
+    recurse: yes
 

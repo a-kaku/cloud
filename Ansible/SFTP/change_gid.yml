@@ -1,0 +1,6 @@
+- name: Change group gid
+  hosts: sftp
+  become: true
+
+  roles:
+    - change_gid
