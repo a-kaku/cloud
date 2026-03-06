@@ -1,11 +1,11 @@
 - name: User control
   user:
-    name: "{{ user.name }}"
-    state: "{{ user.state }}"
+    name: "{{ users.name }}"
+    state: "{{ users.state }}"
   loop: "{{ target_users }}"
   loop_control:
-    loop_var: user
-    
+    loop_var: users
+
 - name: Change group gid
   group:
     name: "{{ item.name }}"

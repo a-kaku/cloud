@@ -1,7 +1,8 @@
 - name: Create user Groups
   ansible.builtin.group:
-    name: "{{ item.name }}"
-    gid: "{{ item.gid }}"
+    name: "{{ new_group.key }}"
+    gid: "{{ new_group.value }}"
     state: present
-  loop:
-    "{{ new_group }}"
+  loop: "{{ new_group | dict2items }}"
+  loop_control:
+    loop_var: new_group
