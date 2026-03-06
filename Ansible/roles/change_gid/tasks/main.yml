@@ -1,4 +1,4 @@
-- name: Change group's gid
+- name: Change group gid
   
   group:
     name: "{{ item.name }}"

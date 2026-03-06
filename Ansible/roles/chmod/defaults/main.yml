@@ -1,8 +1,14 @@
 user: root
 
-group: sftp_users
-
 chmod_direc: /srv/efs/sftp/
 
-sftp_subdir: SISTMS
+target_dir: 
+  - dir_name: SISTMS
+    gid: 2001
+  - dir_name: SKYSIS
+    gid: 2002
+  - dir_name: SKYTMS
+    gid: 2003
+  - dir_name: SKYKIK
+    gid: 2004
 

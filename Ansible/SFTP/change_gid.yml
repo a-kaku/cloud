@@ -4,3 +4,4 @@
 
   roles:
     - change_gid
+    - chmod

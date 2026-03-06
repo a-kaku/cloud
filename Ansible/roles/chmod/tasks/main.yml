@@ -1,9 +1,10 @@
 - name: Ensure chmod directory exists
   file:
-    path: "{{ chmod_direc }}"
+    path: "{{ chmod_direc }}{{ item.dir_name }}"
     state: directory
     owner: "{{ user }}"
-    group: "{{ group }}"
+    group: "{{ item.gid }}"
     mode: '0775'
     recurse: yes
+  loop: "{{ target_dir }}"
 
