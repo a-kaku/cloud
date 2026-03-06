@@ -20,3 +20,9 @@ target_group:
   - name: sftp_users
     gid: 1001
     state: absent
+
+target_users:
+  - name: recvA
+    state: absent
+  - name: sendA
+    state: absent

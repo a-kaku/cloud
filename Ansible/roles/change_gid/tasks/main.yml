@@ -5,3 +5,11 @@
     gid: "{{ item.gid }}"
     state: "{{ item.state }}"
   loop: "{{ target_group }}"
+
+- name: User control
+  user:
+    name: "{{ user.name }}"
+    state: "{{ user.state }}"
+  loop: "{{ target_users }}"
+  loop_control:
+    loop_var: user
