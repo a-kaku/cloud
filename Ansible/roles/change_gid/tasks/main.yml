@@ -3,5 +3,5 @@
   group:
     name: "{{ item.name }}"
     gid: "{{ item.gid }}"
-    state: present
+    state: "{{ item.state }}"
   loop: "{{ target_group }}"

@@ -1,9 +1,22 @@
 target_group: 
   - name: SISTMS
     gid: 2001
+    state: present
   - name: SKYSIS
     gid: 2002
+    state: present
   - name: SKYTMS
     gid: 2003
+    state: present
   - name: SKYKIK
     gid: 2004
+    state: present
+  - name: ssm-user
+    gid: 3001
+    state: present
+  - name: sftp_recv
+    gid: 1002
+    state: absent
+  - name: sftp_users
+    gid: 1001
+    state: absent
