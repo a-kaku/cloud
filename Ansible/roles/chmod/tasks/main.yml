@@ -4,7 +4,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ item.gid }}"
-    mode: '0775'
+    mode: '0770'
     recurse: yes
   loop: "{{ target_dir }}"
 
