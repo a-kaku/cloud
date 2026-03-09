@@ -16,7 +16,7 @@ services:
       - redmine-net
 
   redmine:
-    image: redmine:6.0
+    image: redmine:6.1.1
     container_name: redmine
     restart: always
     ports:
@@ -25,7 +25,7 @@ services:
       REDMINE_DB_MYSQL: mariadb
       REDMINE_DB_DATABASE: redmine3
       REDMINE_DB_USERNAME: redmine
-      REDMINE_DB_PASSWORD: redminepass
+      REDMINE_DB_PASSWORD: redminetest
     volumes:
       - redmine_files:/usr/src/redmine/files
       - ./plugins:/usr/src/redmine/plugins
