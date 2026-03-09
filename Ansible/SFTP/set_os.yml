@@ -1,0 +1,8 @@
+- name: Basic setting of OS
+  hosts: redmine
+  become: true
+
+  roles:
+    - vim
+    - curl
+    - unzip  
