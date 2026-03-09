@@ -1,0 +1,20 @@
+- name: Set system locale
+  command:
+    cmd: localectl set-locale LANG=en_US.UTF-8
+  changed_when: false
+
+- name: Set keymap
+  command:
+    cmd: localectl set-keymap jp106
+
+- name: Show locale configuration
+  debug:
+    var: locale_status.stdout
+
+- name: Set timezone configuration
+  timezone:
+    name: Asia/Tokyo
+
+- name: Show timezone configuration
+  debug:
+    var: timezone_status.stdout

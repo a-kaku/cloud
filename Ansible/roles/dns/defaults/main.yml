@@ -1,0 +1,5 @@
+dns_search: hgs.h21group.com
+
+dns_servers:
+  - 10.200.3.108
+  - 10.200.1.90

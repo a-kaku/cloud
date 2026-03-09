@@ -1,0 +1,20 @@
+- name: Deploy nginx repository
+  template:
+    src: nginx.repo.j2
+    dest: /etc/yum.repo.d/nginx.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install nginx
+  dnf:
+    name: nginx
+    state: present
+
+- name: Enabled nginx
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+    

@@ -6,4 +6,9 @@
     - vim
     - curl
     - unzip
-    - dnf-automatic  
+    - dnf-automatic
+    - nginx
+    - locale_timezone
+    - wget
+    - hosts
+    - dns

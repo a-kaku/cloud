@@ -1,0 +1,10 @@
+    - name: Backup /etc/hosts
+      ansible.builtin.command: cp -p /etc/hosts /etc/hosts.org
+      args:
+        creates: /etc/hosts.org
+
+    - name: Disable IPv6 localhost entry
+      ansible.builtin.replace:
+        path: /etc/hosts
+        regexp: '^::1\s+localhost.*'
+        replace: '::1         localhost6 localhost6.localdomain6'
