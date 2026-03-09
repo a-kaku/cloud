@@ -1,0 +1,43 @@
+- name: Install dnf-automatic package
+  dnf:
+    name: dnf-automatic
+    state: present
+
+- name: Back up the automatic.conf
+  copy:
+    src: /etc/dnf/automatic.conf
+    dest: /etc/dnf/automatic.conf.org
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0644'
+
+
+- name: Set upgrade_type to security
+  ansible.builtin.replace:
+    path: /etc/dnf/automatic.conf
+    regexp: '^upgrade_type\s*=.*'
+    replace: 'upgrade_type = security'
+
+
+- name: Set random_sleep
+  ansible.builtin.replace:
+    path: /etc/dnf/automatic.conf
+    regexp: '^random_sleep\s*=.*'
+    replace: 'random_sleep = 360'
+
+- name: Enable automatic updates
+  ansible.builtin.replace:
+    path: /etc/dnf/automatic.conf
+    regexp: '^apply_updates\s*=.*'
+    replace: 'apply_updates = yes'
+
+- name: Create dnf-automatic timer
+  ansible.builtin.systemd:
+    name: dnf-automatic.timer
+    enabled: yes
+    state: started
+    
+
+  
+
