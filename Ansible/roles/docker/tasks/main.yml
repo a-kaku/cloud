@@ -28,8 +28,8 @@
     enabled: true
     state: started
 
-- name: Add user to docker group
-  user:
-    name: "{{ ansible_user }}"
-    groups: docker
-    append: true
+# - name: Add user to docker group
+#   user:
+#     name: "{{ ansible_user }}"
+#     groups: docker
+#     append: true

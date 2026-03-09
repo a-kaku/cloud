@@ -1,0 +1,6 @@
+- name: Install docker
+  hosts: redmine
+  become: true
+
+  roles:
+    - docker
