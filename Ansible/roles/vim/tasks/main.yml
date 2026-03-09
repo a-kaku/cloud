@@ -18,6 +18,14 @@
     line: 'source /etc/vimrc.d/higashi21.vim'
     state: present
 
+- name: Create vimrc.d directory
+  file:
+    path: /etc/vimrc.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Custom vim configuration
   template:
     src: higashi21vimrc.j2
