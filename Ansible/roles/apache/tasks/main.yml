@@ -2,3 +2,9 @@
   dnf:
     name: httpd
     state: present
+
+- name: Back up the httpd.conf file
+  copy:
+    src: /etc/httpd/config/httpd.conf
+    dest: /etc/httpd/config/httpd.conf.org
+    remote_src: true

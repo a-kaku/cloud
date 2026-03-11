@@ -7,7 +7,6 @@
     - curl
     - unzip
     - dnf-automatic
-    - nginx
     - locale_timezone
     - wget
     - hosts
