@@ -1,0 +1,6 @@
+- name: Configure swap file
+  ansible.posix.swapfile:
+    path: "{{ item.path }}"
+    size_mb: "{{ item.size_mb }}"
+    state: present
+  loop: "{{ swap_files }}"
