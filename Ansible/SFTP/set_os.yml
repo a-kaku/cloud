@@ -12,3 +12,5 @@
     - wget
     - hosts
     - dns
+    - swap
+    - apache
