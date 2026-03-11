@@ -5,6 +5,6 @@
 
 - name: Back up the httpd.conf file
   copy:
-    src: /etc/httpd/config/httpd.conf
-    dest: /etc/httpd/config/httpd.conf.org
+    src: /etc/httpd/conf/httpd.conf
+    dest: /etc/httpd/conf/httpd.conf.org
     remote_src: true
