@@ -1,5 +1,5 @@
 - name: Install docker
-  hosts: vagrants
+  hosts: tmp
   become: true
 
   roles:

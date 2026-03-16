@@ -6,6 +6,7 @@
     - vim
     - curl
     - unzip
+    - awscli
     - dnf-automatic
     - locale_timezone
     - wget
