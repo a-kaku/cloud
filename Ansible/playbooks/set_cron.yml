@@ -1,0 +1,6 @@
+- name: Set cron
+  hosts: redmine-tmp
+  become: true
+
+  roles:
+    - crontab

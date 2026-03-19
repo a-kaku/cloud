@@ -1,7 +1,0 @@
-- name: Test for roles
-  hosts: webservers
-  become: true
-
-  roles: 
-    - common
-    - postgresql
