@@ -1,0 +1,11 @@
+- name: Create banner script
+  template:
+    src: login-banner.sh.j2
+    dest: /etc/profile.d/login-banner.sh
+    mode: '0755'
+
+- name: Configure MOTD
+  template:
+    src: motd.j2
+    dest: /etc/motd
+    

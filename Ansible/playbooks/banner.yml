@@ -1,0 +1,10 @@
+- name: Set banner
+  hosts: redmine-tmp
+  become: true
+
+  vars:
+    os_name: "AlmaLinux"
+    os_version: "9.7"
+  
+  roles:
+    - banner
