@@ -1,7 +1,7 @@
 - name: Configure crontab
   cron:
     name: "daily reboot"
-    minute: "0"
+    minugite: "0"
     hour: "5"
     job: "/sbin/reboot"
     user: root

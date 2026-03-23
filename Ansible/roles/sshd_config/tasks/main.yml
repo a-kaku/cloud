@@ -1,0 +1,6 @@
+- name: Backup original sshd_config file
+  copy:
+    src: /etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config.org
+
+# - name: Configure sshd_config file
