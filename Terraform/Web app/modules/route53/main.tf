@@ -3,6 +3,7 @@ resource "aws_route53_record" "new_record" {
     name = var.domain_name
     type = var.record_type
     records = [var.record]
+    ttl = 300
 }
 
 data "aws_route53_zone" "hosted_zone" {
