@@ -1,5 +1,5 @@
 - name: Install Zabbix-agent2
-  hosts: redmine-tmp
+  hosts: redmine
   become: true
   roles:
     - zabbix
