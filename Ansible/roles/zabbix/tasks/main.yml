@@ -1,0 +1,15 @@
+- name: Install Zabbix agent
+  dnf:
+    name: zabbix-agent2
+    state: present
+
+- name: Install Zabbix plugins
+  dnf:
+    name: zabbix-agent-plugin-*
+    state: present
+
+- name: Enable and start Zabbix agent
+  systemd:
+    name: zabbix-agent2
+    enabled: yes
+    state: started
