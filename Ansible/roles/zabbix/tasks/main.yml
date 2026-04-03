@@ -14,14 +14,44 @@
     name: zabbix-agent2
     state: present
 
-- name: Install Zabbix plugins
-  dnf:
-    name: zabbix-agent-plugin-*
-    state: present
-
 - name: Enable and start Zabbix agent
   systemd:
     name: zabbix-agent2
     enabled: yes
     state: started
+
+- name: Ensure Zabbix directory exists
+  file:
+    path: /etc/zabbix
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Generate PSK file
+  file:
+    path: /etc/zabbix/zabbix_agentd.psk
+    owner: zabbix
+    group: zabbix
+    mode: '0600'
+
+- name: Backup original Zabbix agent2 config
+  copy:
+    src: /etc/zabbix/zabbix_agent2.conf
+    dest: "/etc/zabbix/zabbix_agent2.conf.{{ ansible_date_time}}"
+
+- name: Configure Zabbix config
+  blockinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    block: |
+      Server={{ zabbix_server }}
+      ServerActive={{ zabbix_server }}
+      Hostname={{ server_name }}
+
+- name: Restart Zabbix agent
+  systemd:
+    name: zabbix-agent2
+    state: restarted
+
+
 
