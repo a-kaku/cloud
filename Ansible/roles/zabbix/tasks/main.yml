@@ -29,6 +29,11 @@
     mode: '0755'
 
 - name: Generate PSK file
+  ansible.builtin.shell: "openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk"
+  args:
+    creates: /etc/zabbix/zabbix_agentd.psk
+
+- name: Generate PSK file
   file:
     path: /etc/zabbix/zabbix_agentd.psk
     owner: zabbix
@@ -41,6 +46,7 @@
     dest: "/etc/zabbix/zabbix_agent2.conf.{{ ansible_date_time}}"
 
 - name: Configure Zabbix config
+  
   blockinfile:
     path: /etc/zabbix/zabbix_agent2.conf
     block: |
