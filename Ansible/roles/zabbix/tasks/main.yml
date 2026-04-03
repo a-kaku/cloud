@@ -43,7 +43,7 @@
 - name: Backup original Zabbix agent2 config
   copy:
     src: /etc/zabbix/zabbix_agent2.conf
-    dest: "/etc/zabbix/zabbix_agent2.conf.{{ ansible_date_time}}"
+    dest: "/etc/zabbix/zabbix_agent2.conf.{{ ansible_date_time.date}}"
     remote_src: yes
 
 - name: Configure Zabbix config
