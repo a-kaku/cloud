@@ -44,6 +44,7 @@
   copy:
     src: /etc/zabbix/zabbix_agent2.conf
     dest: "/etc/zabbix/zabbix_agent2.conf.{{ ansible_date_time}}"
+    remote_src: yes
 
 - name: Configure Zabbix config
   
