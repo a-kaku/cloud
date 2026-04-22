@@ -1,25 +1,25 @@
 user_list:
-  - username: itensys
+  - user_name: itensys
     group_id: 1001
   
-  - username: itensys_test
+  - user_name: itensys_test
     group_id: 1003
 
-  - username: acctngsys
+  - user_name: acctngsys
     group_id: 1002
 
-  - username: acctngsys_test
+  - user_name: acctngsys_test
     group_id: 1004
 
-  - username: asteria_edisys
+  - user_name: asteria_edisys
     group_id: 1009
 
-  - username: asteria_edisys_test 
+  - user_name: asteria_edisys_test 
     group_id: 1010
 
-  - username: skymartuser 
+  - user_name: skymartuser 
     group_id: 1009
 
-  - username: skymartuser_test
+  - user_name: skymartuser_test
     group_id: 1010
 
