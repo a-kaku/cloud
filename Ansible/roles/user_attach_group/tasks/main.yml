@@ -4,4 +4,4 @@
     groups: "{{ user.group_id }}"
     append: yes
   loop: "{{ user_list }}"
-  loop_var: user
+    loop_var: user
