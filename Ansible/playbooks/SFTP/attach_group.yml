@@ -1,0 +1,6 @@
+- name: Attach user to group
+  hosts: sftp
+  become: yes
+
+  roles:
+    - user_attach_group

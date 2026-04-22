@@ -1,0 +1,6 @@
+- name: Attach user to group
+  user:
+    name: "{{ user_name }}"
+    groups: "{{ group_id }}"
+    append: yes
+  loop: "{{ user_list }}"
