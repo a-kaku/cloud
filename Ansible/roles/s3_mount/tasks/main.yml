@@ -1,0 +1,4 @@
+- name: Install mount-s3 rpm
+  dnf:
+    name: https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
+    state: present
