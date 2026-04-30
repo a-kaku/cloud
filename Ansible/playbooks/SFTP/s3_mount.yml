@@ -1,5 +1,5 @@
 - name: Install mount-s3 rpm
   hosts: sftp
-  becomes: yes
+  become: yes
 
   role: s3_mount
