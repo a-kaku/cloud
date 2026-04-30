@@ -8,3 +8,4 @@
   dnf:
     name: /tmp/mount-s3.rpm
     state: present
+    disable_gpg_check: yes
