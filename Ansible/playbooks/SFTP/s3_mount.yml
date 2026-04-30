@@ -2,4 +2,4 @@
   hosts: sftp
   become: yes
 
-  role: s3_mount
+  roles: s3_mount
