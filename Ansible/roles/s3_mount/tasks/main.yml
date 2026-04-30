@@ -1,4 +1,10 @@
+- name: Download mount-s3 rpm
+  get_url:
+    url: https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
+    dest: /tmp/mount-s3.rpm
+    mode: '0644'
+
 - name: Install mount-s3 rpm
   dnf:
-    name: https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
+    name: /tmp/mount-s3.rpm
     state: present
