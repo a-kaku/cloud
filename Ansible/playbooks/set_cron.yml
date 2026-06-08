@@ -1,5 +1,5 @@
 - name: Set cron
-  hosts: redmine-tmp
+  hosts: sftp
   become: true
 
   roles:
