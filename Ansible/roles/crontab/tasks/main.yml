@@ -4,7 +4,7 @@
     state: present
     createhome: no
     system: yes
-  loop: "{{ cron_users }}"
+  loop: "{{ cron_jobs }}"
   when: item.user != "root"
   run_once: true
 
