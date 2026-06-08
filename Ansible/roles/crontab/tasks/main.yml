@@ -1,7 +1,22 @@
+- name: Confirm user exists
+  user:
+    name: "{{ item.user}}"
+    state: present
+    createhome: no
+    system: yes
+  loop: "{{ cron_users }}"
+  when: item.user != "root"
+  run_once: true
+
 - name: Configure crontab
   cron:
-    name: "daily reboot"
-    minugite: "0"
-    hour: "5"
-    job: "/sbin/reboot"
-    user: root
+    name: "{{ item.name }}"
+    user: "{{ item.user }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    month: "{{ item.month }}"
+    weekday: "{{ item.weekday }}"
+    job: "{{ item.job }}"
+    state: present
+  loop: "{{ cron_jobs }}"
