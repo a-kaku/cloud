@@ -1,0 +1,36 @@
+cron_jobs:
+  - name: "月次再起動「第3水曜」"
+    user: root
+    minute: "0"
+    hour: "5"
+    day: "15-21"
+    month: "*"
+    weekday: "3"
+    job: "/usr/sbin/reboot"
+  
+  - name: "SkymartEDIで作成された4日以上古いファイルを削除する"
+    user: asteria_edisys
+    minute: "30"
+    hour: "23"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "find /var/data_interchange_root/skymart -type f -mtime +4 | xargs rm -f"
+  
+  - name: "タブレット処理で作成された3日以上古いファイルを削除する"
+    user: itensys
+    minute: "30"
+    hour: "23"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "find /var/data_interchange/Tablet -type f -mtime +3 | xargs rm -f"
+  
+  - name: "タブレット処理で作成された4日以上古いファイルを削除する"
+    user: itensys_test
+    minute: "30"
+    hour: "23"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "find /var/data_interchange_test/Tablet -type f -mtime +4 | xargs rm -f"
