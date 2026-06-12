@@ -32,3 +32,9 @@ user_list:
 
    - user_name: vone_fx5_test
      group_id: 48
+
+   - user_name: acctngsys
+     group_id: 48
+
+   - user_name: acctngsys_test
+     group_id: 48
