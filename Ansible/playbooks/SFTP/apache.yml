@@ -1,5 +1,5 @@
 - name: Install Apache
   hosts: sftp
-  becomes: yes
+  become: yes
   roles:
     - apache
