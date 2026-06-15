@@ -1,5 +1,5 @@
 - name: Install Zabbix-agent2
-  hosts: redmine
+  hosts: sftp
   become: true
   roles:
     - zabbix
