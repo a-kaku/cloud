@@ -1,5 +1,5 @@
 - name: Basic setting of OS
-  hosts: redmine
+  hosts: itensys
   become: true
 
   roles:
