@@ -5,7 +5,8 @@
 
 - name: Set keymap
   command:
-    cmd: localectl set-keymap jp106
+#    cmd: localectl set-keymap jp106
+    cmd: localectl set-keymap jp    
 
 - name: Show locale configuration
   debug:
