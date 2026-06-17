@@ -4,7 +4,7 @@
 
   roles:
     - vim
-    - curl
+  #  - curl
     - unzip
     - ssm
     - awscli
