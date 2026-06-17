@@ -12,5 +12,5 @@
     - locale_timezone
     - wget
     - hosts
-    - dns
+#    - dns
     - apache
