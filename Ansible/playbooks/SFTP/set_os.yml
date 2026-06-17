@@ -4,7 +4,7 @@
 
   roles:
     - vim
-  #  - curl
+    - curl
     - unzip
     - ssm
     - awscli
@@ -12,5 +12,5 @@
     - locale_timezone
     - wget
     - hosts
-#    - dns
+    - dns
     - apache
