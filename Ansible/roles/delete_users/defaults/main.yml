@@ -1,0 +1,19 @@
+users:
+  - name: SISTMS_SIS
+    uid: 1004
+  - name: SISTMS_TMS
+    uid: 1005
+  - name: SKYSIS_SIS
+    uid: 1006
+  - name: SKYSIS_SKY
+    uid: 1007
+  - name: SKYTMS_TMS
+    uid: 1008
+  - name: SKYTMS_SKY
+    uid: 1009
+  - name: SKYKIK_SKY
+    uid: 1010
+  - name: SKYKIK_KIK
+    uid: 1011
+
+users_group: sftp_users
