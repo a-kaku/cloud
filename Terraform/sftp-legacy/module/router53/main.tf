@@ -1,5 +1,5 @@
 resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.hosted_zone
+  zone_id = data.aws_route53_zone.hosted_zone.zone_id
   name    = var.record_name
   type    = var.type
   ttl     = 300
