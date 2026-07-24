@@ -1,0 +1,8 @@
+variables.tf
+*.tfvars
+
+# Optional
+*.backup
+*.log
+__pycache__
+*.bkp
