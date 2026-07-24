@@ -19,10 +19,6 @@ variable "role_arn" {
   type        = string
 }
 
-variable "filename" {
-    description = "The name of the deployment package file."
-    type        = string
-}
 
 variable "memory_size" {
   description = "The amount of memory available to the function at runtime."
