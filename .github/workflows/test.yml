@@ -1,0 +1,19 @@
+name: Test Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: hostname
+
+      - run: whoami
+
+      - run: pwd
+
+      - run: uname -a
