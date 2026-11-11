@@ -2,7 +2,7 @@ resource "aws_instance" "ec2" {
     ami = var.ami_id
     instance_type = var.instance_type
     key_name = var.key_name
-    iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+    iam_instance_profile = data.aws_iam_instance_profile.instance_profile.name
 
     primary_network_interface {
         network_interface_id = aws_network_interface.eni.id
