@@ -1,0 +1,39 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*prod.tfvars
+Terraform/**/variable.tf
+Terraform/**/variables.tf
+Terraform/**/ssm
+
+
+# Variable files
+*.tfvars
+*.auto.tfvars
+
+# Crash logs
+crash.log
+
+# Plan files
+*.tfplan
+
+# IDE
+.vscode/
+.idea/
+
+# sensitive files
+*h21*
+*h21*
+h21/
+
+# Optional
+*.backup
+*.log
+__pycache__
+*.bkp
