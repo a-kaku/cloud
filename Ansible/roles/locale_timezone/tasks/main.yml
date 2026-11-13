@@ -12,7 +12,7 @@
     var: locale_status.stdout
 
 - name: Set timezone configuration
-  timezone:
+  community.general.timezone:
     name: Asia/Tokyo
 
 - name: Show timezone configuration
