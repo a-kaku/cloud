@@ -1,5 +1,5 @@
 - name: Basic setting of OS
-  hosts: 
+  hosts: zabbix
   become: true
 
   roles:
