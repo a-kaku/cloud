@@ -1,0 +1,15 @@
+- name: Set Zabbix Server Stage
+  hosts: zabbix
+  become: true
+  roles:
+    - vim
+    - curl
+    - unzip
+    - ssm
+    - awscli
+    - dnf-automatic
+    - locale_timezone
+    - wget
+    - hosts
+    - dns
+    - apache

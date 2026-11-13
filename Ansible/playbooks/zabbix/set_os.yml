@@ -1,0 +1,16 @@
+- name: Basic setting of OS
+  hosts: 
+  become: true
+
+  roles:
+    - vim
+    - curl
+    - unzip
+    - ssm
+    - awscli
+    - dnf-automatic
+    - locale_timezone
+    - wget
+    - hosts
+    - dns
+    - apache
