@@ -1,0 +1,6 @@
+- name: Install and configure mariadb
+  hosts: zabbix
+  become: true
+
+  roles:
+    - mariadb

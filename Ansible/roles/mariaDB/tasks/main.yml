@@ -1,0 +1,27 @@
+- name: Install mariaDB package
+  ansible.builtin.dnf:
+    name: "{{ mariadb_package }}"
+    state: present
+
+- name: Deploy mariadb configuration file
+  ansible.builtin.template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf.d/server.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart mariadb
+
+- name: Enable mariadb service
+  ansible.builtin.systemd:
+    name: "{{ mariadb_service }}"
+    state: started
+    enabled: true
+
+- name: Initialize mariadb root password
+  community.mysql.mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    host: localhost
+    state: present
