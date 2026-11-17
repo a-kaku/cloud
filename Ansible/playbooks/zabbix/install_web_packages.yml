@@ -5,4 +5,4 @@
   roles:
     - apache
     - php
-    - zabbix-agent2
+    - zabbix_agent2
