@@ -1,0 +1,13 @@
+mariadb_module_stream: "11.8"
+
+mariadb_package: 
+  - mariadb-server
+  - mariadb
+
+mariadb_service: mariadb
+
+mariadb_port: 3306
+
+mariadb_bind_address: "127.0.0.1"
+
+mariadb_root_password: "ChangeMe"
