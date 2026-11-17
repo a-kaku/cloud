@@ -1,0 +1,8 @@
+- name: Install Web packages
+  hosts: zabbix
+  become: true
+
+  roles:
+    - apache
+    - php
+    - zabbix-agent2

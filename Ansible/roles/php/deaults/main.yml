@@ -1,0 +1,15 @@
+php_packages:
+  - php
+  - php-cli
+  - php-fpm
+  - php-common
+  - php-mysqlnd
+  - php-gd
+  - php-mbstring
+  - php-opcache
+  - php-xml
+  - php-intl
+  - php-json
+  - php-process
+  - php-soap
+  - php-pecl-zip

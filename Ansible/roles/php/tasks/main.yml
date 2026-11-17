@@ -1,0 +1,10 @@
+- name: Install PHP packages
+  ansible.builtin.dnf:
+    name: "{{ php_packages }}"
+    state: latest
+
+- name: Enable and start php-fpm
+  ansible.builtin.systemd:
+    name: php-fpm
+    enabled: true
+    state: started
