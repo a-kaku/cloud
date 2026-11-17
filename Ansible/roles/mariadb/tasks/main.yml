@@ -16,7 +16,7 @@
 - name: Install mariaDB package
   ansible.builtin.dnf:
     name: "{{ mariadb_package }}"
-    state: present
+    state: latest
 
 - name: Deploy mariadb configuration file
   ansible.builtin.template:
