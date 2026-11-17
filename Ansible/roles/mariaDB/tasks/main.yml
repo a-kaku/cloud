@@ -3,6 +3,10 @@
     name: python3-PyMySQL
     state: present
 
+- name: Reset MariaDB module
+  ansible.builtin.command:
+    cmd: dnf module reset mariadb -y
+
 - name: Enable MariaDB module stream
   ansible.builtin.command:
     cmd: "dnf module enable mariadb:{{ mariadb_module_stream }} -y"
@@ -29,10 +33,3 @@
     name: "{{ mariadb_service }}"
     state: started
     enabled: true
-
-- name: Initialize mariadb root password
-  community.mysql.mysql_user:
-    name: root
-    password: "{{ mariadb_root_password }}"
-    host: localhost
-    state: present
