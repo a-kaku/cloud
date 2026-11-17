@@ -13,3 +13,5 @@ php_packages:
   - php-process
   - php-soap
   - php-pecl-zip
+
+php_version: "8.3"

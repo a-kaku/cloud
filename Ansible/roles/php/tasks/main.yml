@@ -1,3 +1,9 @@
+- name: Reset PHP modules
+  command: dnf dodule reste php -y
+
+- name: Enable PHP modules
+  command: dnf module enable php:{{ php_version }} -y
+
 - name: Install PHP packages
   ansible.builtin.dnf:
     name: "{{ php_packages }}"
