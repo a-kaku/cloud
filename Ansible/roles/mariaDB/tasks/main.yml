@@ -3,6 +3,12 @@
     name: python3-PyMySQL
     state: present
 
+- name: Enable MariaDB module stream
+  ansible.builtin.command:
+    cmd: "dnf module enable mariadb:{{ mariadb_module_stream }} -y"
+  register: mariadb_module_enable
+  changed_when: "'Nothing to do' not in mariadb_module_enable.stdout"
+
 - name: Install mariaDB package
   ansible.builtin.dnf:
     name: "{{ mariadb_package }}"
