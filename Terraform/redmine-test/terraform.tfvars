@@ -1,0 +1,7 @@
+target_group_name = "pleasanter-tmp-lb-tg"
+vpc_id = "vpc-66901d03"
+instance_id = "i-062b50ab1141ee270"
+lb_arn = "arn:aws:elasticloadbalancing:ap-northeast-1:421851801669:loadbalancer/app/asteria/379b750b0da18968"
+lb_name = "asteria"
+listener_80_arn = "arn:aws:elasticloadbalancing:ap-northeast-1:421851801669:listener/app/asteria/379b750b0da18968/b20b234c7c2760c6"
+listener_443_arn = "arn:aws:elasticloadbalancing:ap-northeast-1:421851801669:listener/app/asteria/379b750b0da18968/164c4797d66c1a8b"
