@@ -1,0 +1,17 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+*h21*
+h21/
+*prod.tfvars
+Terraform/**/variable.tf
+Terraform/**/variables.tf
+Terraform/**/ssm
+
+# Optional
+*.backup
+*.log
+__pycache__
+*.bkp
