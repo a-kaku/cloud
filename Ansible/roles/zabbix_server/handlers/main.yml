@@ -1,0 +1,9 @@
+- name: Restart Zabbix Server
+  ansible.builtin.systemd:
+    name: "{{ zabbix_server_service }}"
+    state: restarted
+
+- name: Restart Apache
+  ansible.builtin.systemd:
+    name: "{{ apache_service }}"
+    state: restarted

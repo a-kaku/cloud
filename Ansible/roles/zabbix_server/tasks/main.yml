@@ -1,0 +1,21 @@
+- name: Install Zabbix Repository
+  ansible.builtin.dnf:
+    name: "{{ zabbix_repo_rpm}}"
+    state: present
+
+- name: Clean DNF cache
+  ansible.builtin.command: dnf clean all
+  changed_when: false
+
+- name: install required packages
+  ansible.builtin.dnf:
+    name:
+      - zabbix-server-mysql
+      - zabbix-web-mysql
+      - zabbix-apache-conf
+      - zabbix-agent2
+      - zabbix-sql-scripts
+    state: present
+    notify:
+      - Restart Zabbix Server
+      - Restart Apache
