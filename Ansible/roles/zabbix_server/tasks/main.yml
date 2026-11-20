@@ -16,6 +16,3 @@
       - zabbix-agent2
       - zabbix-sql-scripts
     state: present
-  notify:
-      - Restart Zabbix Server
-      - Restart Apache
