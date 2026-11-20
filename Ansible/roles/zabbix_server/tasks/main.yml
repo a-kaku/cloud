@@ -1,9 +1,3 @@
-- name: Download Zabbix Repository RPM
-  ansible.builtin.get_url:
-    url: "{{ zabbix_repo_rpm }}"
-    dest: /tmp/zabbix-release-latest-7.0.el9.noarch.rpm
-    mode: '0644'
-
 - name: Install Zabbix Repository
   ansible.builtin.dnf:
     name: "{{ zabbix_repo_rpm}}"
@@ -22,6 +16,6 @@
       - zabbix-agent2
       - zabbix-sql-scripts
     state: present
-    notify:
+  notify:
       - Restart Zabbix Server
       - Restart Apache
